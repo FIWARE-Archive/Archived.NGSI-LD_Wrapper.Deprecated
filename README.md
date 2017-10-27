@@ -1,3 +1,3 @@
-# NGSI-LD Wrapper for Orion
+# NGSI-LD Wrapper for NGSIv2
 
 License: MIT 
