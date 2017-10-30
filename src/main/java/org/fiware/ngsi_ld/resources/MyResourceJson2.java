@@ -1,7 +1,10 @@
 package org.fiware.ngsi_ld.resources;
 
 import org.fiware.ngsi_ld.C3IMEntity;
-import org.fiware.ngsi_ld.C3IMEntityAdapter;
+import org.fiware.ngsi_ld.C3IMPropertySt;
+import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
+import org.fiware.ngsi_ld.comp.C3IMEntityAdapter;
+import org.fiware.ngsi_ld.impl.C3IMPropertyStImpl;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -31,9 +34,10 @@ public class MyResourceJson2 {
         config.withAdapters(new C3IMEntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
 
-        C3IMEntity entity = new C3IMEntity("urn:c3im:Vehicle:4567", "Vehicle");
+        C3IMEntity entity = new C3IMEntityImpl("urn:c3im:Vehicle:4567", "Vehicle");
+        C3IMPropertySt propertySt = new C3IMPropertyStImpl("speed", 40);
 
-        entity.addAttribute("speed", 40);
+        entity.addProperty(propertySt);
 
         return jsonb.toJson(entity);
     }

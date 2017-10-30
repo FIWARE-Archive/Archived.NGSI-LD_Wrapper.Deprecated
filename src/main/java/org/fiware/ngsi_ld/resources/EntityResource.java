@@ -4,9 +4,10 @@ import org.fiware.ngsi.NgsiClient;
 import org.fiware.ngsi.QueryData;
 import org.fiware.ngsi.QueryResult;
 import org.fiware.ngsi_ld.C3IMEntity;
-import org.fiware.ngsi_ld.C3IMEntityAdapter;
-import org.fiware.ngsi_ld.Configuration;
-import org.fiware.ngsi_ld.Ngsi2C3IM;
+import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
+import org.fiware.ngsi_ld.comp.C3IMEntityAdapter;
+import org.fiware.Configuration;
+import org.fiware.ngsi_ld.comp.Ngsi2C3IM;
 
 import javax.json.JsonArray;
 import javax.json.bind.Jsonb;
@@ -18,7 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
 
 /**
  *   Entities resource
