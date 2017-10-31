@@ -1,6 +1,7 @@
 package org.fiware.ngsi_ld.comp;
 
 
+import org.fiware.UrnValidator;
 import org.fiware.ngsi_ld.C3IMPropertySt;
 import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
 
@@ -27,7 +28,12 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
     public JsonObject adaptToJson(C3IMEntityImpl e) throws Exception {
         JsonObjectBuilder builder = Json.createObjectBuilder();
 
-        builder.add("id", e.getId());
+        String id = e.getId();
+        if (!UrnValidator.isValid(id)) {
+            id = "urn" + ":" + "c3im" + ":" + e.getType() + ":" + e.getId();
+        }
+
+        builder.add("id", id);
         builder.add("type", e.getType());
 
         // Iterate over the attributes of the C3IM entity

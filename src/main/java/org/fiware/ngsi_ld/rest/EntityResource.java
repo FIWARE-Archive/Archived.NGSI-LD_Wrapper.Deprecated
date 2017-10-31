@@ -117,7 +117,10 @@ public class EntityResource {
                 stb.append(jsonb.toJson(c3imEntity)).append(",");
             }
 
-            stb.deleteCharAt(stb.length() - 1);
+            if (stb.length() > 1) {
+                stb.deleteCharAt(stb.length() - 1);
+            }
+
             stb.append("]");
 
             return addJsonLinkHeader(Response.ok(stb.toString())).build();
