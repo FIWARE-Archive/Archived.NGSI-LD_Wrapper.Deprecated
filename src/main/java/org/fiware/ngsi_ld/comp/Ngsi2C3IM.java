@@ -1,12 +1,16 @@
 package org.fiware.ngsi_ld.comp;
 
 import org.fiware.ngsi_ld.C3IMEntity;
+import org.fiware.ngsi_ld.C3IMObject;
 import org.fiware.ngsi_ld.C3IMPropertySt;
+import org.fiware.ngsi_ld.C3IMRelationshipSt;
 import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
 import org.fiware.ngsi_ld.impl.C3IMPropertyStImpl;
+import org.fiware.ngsi_ld.impl.C3IMRelationshipStImpl;
 
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import java.net.URI;
 
 /**
  *
@@ -30,18 +34,30 @@ public class Ngsi2C3IM {
                 JsonValue value;
                 JsonObject ngsiStructure = null;
                 boolean hasMetadata = true;
+                String attrType = null;
 
                 try {
                     ngsiStructure = obj.getJsonObject(key);
                     value = ngsiStructure.get("value");
+                    attrType = ngsiStructure.getString("type");
                 }
                 catch(Throwable thr) {
                     value = obj.get(key);
                     hasMetadata = false;
                 }
 
-                C3IMPropertySt pst = new C3IMPropertyStImpl(key,value);
-                ent.addProperty(pst);
+                C3IMObject c3imObj;
+                if (attrType != null && !attrType.equals("Reference")) {
+                    c3imObj = new C3IMPropertyStImpl(key, value);
+                    ent.addProperty((C3IMPropertySt)c3imObj);
+                }
+                else {
+                    String valStr = ngsiStructure.getString("value");
+                    System.out.println(valStr);
+                    c3imObj = new C3IMRelationshipStImpl(key, valStr);
+                    ent.addRelationship((C3IMRelationshipSt)c3imObj);
+                }
+
 
                 if (hasMetadata) {
                     JsonObject metadata = ngsiStructure.getJsonObject("metadata");
@@ -49,7 +65,7 @@ public class Ngsi2C3IM {
                         for (String mKey : metadata.keySet()) {
                             JsonObject metadataStructure = metadata.getJsonObject(mKey);
                             C3IMPropertySt metaPropertySt = new C3IMPropertyStImpl(mKey, metadataStructure.get("value"));
-                            pst.addProperty(metaPropertySt);
+                            c3imObj.addProperty(metaPropertySt);
                         }
                     }
                 }

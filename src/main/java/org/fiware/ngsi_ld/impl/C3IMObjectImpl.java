@@ -67,7 +67,7 @@ public abstract class C3IMObjectImpl implements C3IMObject {
 
     @Override
     public void addProperty(C3IMPropertySt prop) {
-        properties.put(prop.getPropertyId(),prop);
+        properties.put(prop.getPropertyId(), prop);
     }
 
     @Override

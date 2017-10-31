@@ -3,6 +3,7 @@ package org.fiware.ngsi_ld.comp;
 
 import org.fiware.UrnValidator;
 import org.fiware.ngsi_ld.C3IMPropertySt;
+import org.fiware.ngsi_ld.C3IMRelationshipSt;
 import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
 
 import javax.json.Json;
@@ -36,7 +37,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         builder.add("id", id);
         builder.add("type", e.getType());
 
-        // Iterate over the attributes of the C3IM entity
+        // Iterate over the properties of the C3IM entity
         Map<String,C3IMPropertySt> props = e.getProperties();
 
         Set<String> keys = props.keySet();
@@ -44,6 +45,16 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
             C3IMPropertySt prop = props.get(key);
 
             adaptPropertyStToJson(builder,key, prop);
+        }
+
+        // Iterate over the relationships of the C3IM entity
+        Map<String,C3IMRelationshipSt> rels = e.getRelationships();
+
+        Set<String> relKeys = rels.keySet();
+        for (String relKey:relKeys) {
+            C3IMRelationshipSt rel = rels.get(relKey);
+
+            adaptRelationshipStToJson(builder,relKey, rel);
         }
 
         return builder.build();
@@ -61,8 +72,9 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
 
     private void adaptPropertyStToJson(JsonObjectBuilder builder, String key, C3IMPropertySt pst) {
         Map<String,C3IMPropertySt> propsOfProp = pst.getProperties();
+        Map<String,C3IMRelationshipSt> relsOfProp = pst.getRelationships();
 
-        if (propsOfProp.size() == 0) {
+        if (propsOfProp.size() == 0 && relsOfProp.size() == 0) {
             addValue(builder, key, pst.getValue());
         }
         else {
@@ -73,6 +85,27 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
             Set<String> keys = propsOfProp.keySet();
             for (String keyProp : keys) {
                 C3IMPropertySt newSt = propsOfProp.get(keyProp);
+                adaptPropertyStToJson(propBuilder, keyProp, newSt);
+            }
+            builder.add(key, propBuilder.build());
+        }
+    }
+
+    private void adaptRelationshipStToJson(JsonObjectBuilder builder, String key, C3IMRelationshipSt relst) {
+        Map<String,C3IMRelationshipSt> relsOfRels = relst.getRelationships();
+        Map<String,C3IMPropertySt> propsOfRels = relst.getProperties();
+
+        if (propsOfRels.size() == 0 && relsOfRels.size() == 0) {
+            addRelObject(builder, key, relst.getObject().toString());
+        }
+        else {
+            JsonObjectBuilder propBuilder = Json.createObjectBuilder();
+            propBuilder.add("type", "RelationshipStatement");
+            // TODO: This will not always be a JsonValue
+            propBuilder.add("object", relst.getObject().toString());
+            Set<String> keys = propsOfRels.keySet();
+            for (String keyProp : keys) {
+                C3IMPropertySt newSt = propsOfRels.get(keyProp);
                 adaptPropertyStToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());
@@ -100,5 +133,9 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
             obj.add(key, val);
         }
         // Add more cases here
+    }
+
+    private void addRelObject(JsonObjectBuilder obj, String key, String object) {
+        obj.add(key, object);
     }
 }

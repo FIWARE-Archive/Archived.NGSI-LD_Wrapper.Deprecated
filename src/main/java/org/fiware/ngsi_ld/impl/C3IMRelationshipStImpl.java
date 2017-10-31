@@ -16,9 +16,14 @@ import java.net.URI;
  */
 public class C3IMRelationshipStImpl extends C3IMObjectImpl implements C3IMRelationshipSt {
     private String relationshipId;
-    private URI object;
+    private String object;
 
     public C3IMRelationshipStImpl(String relationshipId, URI object) {
+        this.relationshipId = relationshipId;
+        this.object = object.toString();
+    }
+
+    public C3IMRelationshipStImpl(String relationshipId, String object) {
         this.relationshipId = relationshipId;
         this.object = object;
     }
@@ -30,6 +35,10 @@ public class C3IMRelationshipStImpl extends C3IMObjectImpl implements C3IMRelati
 
     @Override
     public URI getObject() {
+        return URI.create(object);
+    }
+
+    public String getObjectStr() {
         return object;
     }
 }
