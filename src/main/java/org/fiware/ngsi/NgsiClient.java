@@ -31,12 +31,19 @@ public class NgsiClient {
         URI uri = URI.create(endPoint);
         WebTarget target = c.target(uri).path("/entities");
 
-        if (q.entityIds.size() > 0) {
-            String idList = String.join(", ", q.entityIds);
-            target = target.queryParam("id",idList);
+        if (q.entityIds.length() > 0) {
+            target = target.queryParam("id",q.entityIds);
         }
 
-        if (options !=null && options.size() > 0) {
+        if(q.types.length() > 0) {
+            target = target.queryParam("type", q.types);
+        }
+
+        if (q.queryExpression.length() > 0) {
+            target = target.queryParam("q", q.queryExpression);
+        }
+
+        if (options != null && options.size() > 0) {
             String optionsList = String.join(",", options);
             target = target.queryParam("options",optionsList);
         }

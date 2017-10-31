@@ -6,13 +6,15 @@ import java.util.List;
 public class QueryData {
     public String queryExpression;
 
-    public List<String> entityIds;
+    // Comma separated list of entity ids
+    public String entityIds;
 
-    public List<String> types;
+    // Comma separated list of types
+    public String types;
 
     public QueryData() {
-        types = new ArrayList<String>();
-        entityIds = new ArrayList<String>();
-        queryExpression = new String();
+        types = "";
+        entityIds = "";
+        queryExpression = "";
     }
 }
