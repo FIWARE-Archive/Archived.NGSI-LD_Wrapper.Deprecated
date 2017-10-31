@@ -10,6 +10,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
 
 public class NgsiClient {
@@ -20,6 +22,10 @@ public class NgsiClient {
     }
 
     public QueryResult query(QueryData q) {
+        return this.query(q,null);
+    }
+
+    public QueryResult query(QueryData q, List<String> options) {
         Client c = ClientBuilder.newClient();
 
         URI uri = URI.create(endPoint);
@@ -28,6 +34,11 @@ public class NgsiClient {
         if (q.entityIds.size() > 0) {
             String idList = String.join(", ", q.entityIds);
             target = target.queryParam("id",idList);
+        }
+
+        if (options !=null && options.size() > 0) {
+            String optionsList = String.join(",", options);
+            target = target.queryParam("options",optionsList);
         }
 
         QueryResult out = null;

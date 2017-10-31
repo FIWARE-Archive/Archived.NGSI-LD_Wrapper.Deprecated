@@ -12,12 +12,10 @@ import javax.json.JsonArray;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 
 /**
@@ -41,13 +39,13 @@ public class EntityResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Object getEntity(@PathParam("id") String id) {
+    public Object getEntity(@PathParam("id") String id, @QueryParam("options") List<String> options) {
         JsonbConfig config = new JsonbConfig();
 
         config.withAdapters(new C3IMEntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
 
-        QueryResult result = retrieveNgsiEntity(id,"Vehicle");
+        QueryResult result = retrieveNgsiEntity(id,"Vehicle", options);
 
         if (result.status != 200) {
             return Response.status(result.status);
@@ -67,12 +65,12 @@ public class EntityResource {
         return rb.header("Link", Configuration.LINK_HEADER_VALUE);
     }
 
-    private QueryResult retrieveNgsiEntity(String id, String type) {
+    private QueryResult retrieveNgsiEntity(String id, String type, List<String> options) {
         NgsiClient client = new NgsiClient(Configuration.ORION_BROKER);
         QueryData qd = new QueryData();
         qd.entityIds.add(id);
         qd.types.add(type);
 
-        return client.query(qd);
+        return client.query(qd, options);
     }
 }
