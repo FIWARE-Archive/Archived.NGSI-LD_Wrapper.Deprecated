@@ -26,8 +26,18 @@ public class Ngsi2C3IM {
 
         for(String key:obj.keySet()) {
             if(!key.equals("id") && !key.equals("type")) {
-                C3IMPropertySt pst = new C3IMPropertyStImpl(key,obj.getValue(key));
+                JsonObject ngsiStructure = obj.getJsonObject(key);
+                C3IMPropertySt pst = new C3IMPropertyStImpl(key,ngsiStructure.get("value"));
                 ent.addProperty(pst);
+
+                JsonObject metadata = ngsiStructure.getJsonObject("metadata");
+                if (metadata != null) {
+                    for(String mKey:metadata.keySet()) {
+                        JsonObject metadataStructure = metadata.getJsonObject(mKey);
+                        C3IMPropertySt metaPropertySt = new C3IMPropertyStImpl(mKey, metadataStructure.get("value"));
+                        pst.addProperty(metaPropertySt);
+                    }
+                }
             }
         }
 

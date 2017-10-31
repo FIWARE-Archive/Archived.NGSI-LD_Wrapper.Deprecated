@@ -1,5 +1,6 @@
 package org.fiware.ngsi_ld.comp;
 
+
 import org.fiware.ngsi_ld.C3IMPropertySt;
 import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
 
@@ -35,7 +36,8 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         Set<String> keys = props.keySet();
         for (String key:keys) {
             C3IMPropertySt prop = props.get(key);
-            addValue(builder, key, prop.getValue());
+
+            adaptPropertyStToJson(builder,key, prop);
         }
 
         return builder.build();
@@ -51,6 +53,26 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         return e;
     }
 
+    private void adaptPropertyStToJson(JsonObjectBuilder builder, String key, C3IMPropertySt pst) {
+        Map<String,C3IMPropertySt> propsOfProp = pst.getProperties();
+
+        if (propsOfProp.size() == 0) {
+            addValue(builder, key, pst.getValue());
+        }
+        else {
+            JsonObjectBuilder propBuilder = Json.createObjectBuilder();
+            propBuilder.add("type", "PropertyStatement");
+            // TODO: This will not always be a JsonValue
+            propBuilder.add("value", (JsonValue)pst.getValue());
+            Set<String> keys = propsOfProp.keySet();
+            for (String keyProp : keys) {
+                C3IMPropertySt newSt = propsOfProp.get(keyProp);
+                adaptPropertyStToJson(propBuilder, keyProp, newSt);
+            }
+            builder.add(key, propBuilder.build());
+        }
+    }
+
     private void addValue(JsonObjectBuilder obj, String key, Object value) {
         if (value instanceof Integer) {
             obj.add(key, (Integer)value);
@@ -61,8 +83,15 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         else if (value instanceof Float) {
             obj.add(key, (Float)value);
         }
+        else if (value instanceof Double) {
+            obj.add(key, (Double)value);
+        }
+        else if (value instanceof Boolean) {
+            obj.add(key, (Boolean)value);
+        }
         else if (value instanceof JsonValue) {
-            obj.add(key, (JsonValue)value);
+            JsonValue val = (JsonValue)value;
+            obj.add(key, val);
         }
         // Add more cases here
     }

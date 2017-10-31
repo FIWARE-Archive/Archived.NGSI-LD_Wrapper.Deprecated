@@ -1,4 +1,4 @@
-package org.fiware.ngsi_ld.resources;
+package org.fiware.ngsi_ld.rest;
 
 import org.fiware.ngsi_ld.C3IMEntity;
 import org.fiware.ngsi_ld.C3IMPropertySt;

@@ -1,4 +1,4 @@
-package org.fiware.ngsi_ld.resources;
+package org.fiware.ngsi_ld.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

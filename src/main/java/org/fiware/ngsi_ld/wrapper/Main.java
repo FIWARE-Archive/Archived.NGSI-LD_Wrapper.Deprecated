@@ -18,13 +18,13 @@ public class Main {
     public static final String BASE_URI = "http://localhost:8080/c3im/";
 
     /**
-     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+     * Starts Grizzly HTTP server exposing JAX-RS rest defined in this application.
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer() {
-        // create a resource config that scans for JAX-RS resources and providers
+        // create a resource config that scans for JAX-RS rest and providers
         // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("org.fiware.ngsi_ld.resources");
+        final ResourceConfig rc = new ResourceConfig().packages("org.fiware.ngsi_ld.rest");
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
