@@ -43,6 +43,12 @@ public class NgsiClient {
             target = target.queryParam("q", q.queryExpression);
         }
 
+        if(q.geoQuery.geoRel.length() > 0) {
+            target = target.queryParam("georel", q.geoQuery.geoRel);
+            target = target.queryParam("geometry", q.geoQuery.geometry);
+            target = target.queryParam("coords", q.geoQuery.coords);
+        }
+
         if (options != null && options.size() > 0) {
             String optionsList = String.join(",", options);
             target = target.queryParam("options",optionsList);

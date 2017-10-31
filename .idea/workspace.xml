@@ -15,22 +15,10 @@
       <file leaf-file-name="EntityResource.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+            <state relative-caret-position="460">
+              <caret line="104" column="44" lean-forward="false" selection-start-line="104" selection-start-column="44" selection-end-line="104" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonArrayBuilderImpl.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/glassfish/javax.json/1.1/javax.json-1.1.jar!/org/glassfish/json/JsonArrayBuilderImpl.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="347" column="0" lean-forward="false" selection-start-line="347" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
-              <folding>
-                <element signature="e#10626#10627#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -60,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NgsiClient.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NgsiClient.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+            <state relative-caret-position="448">
+              <caret line="52" column="59" lean-forward="true" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -85,11 +73,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ngsi2C3IM.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Ngsi2C3IM.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="308">
               <caret line="54" column="66" lean-forward="false" selection-start-line="54" selection-start-column="66" selection-end-line="54" selection-end-column="66" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueryData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/QueryData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="20" column="38" lean-forward="false" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GeoQueryData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/GeoQueryData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,18 +126,6 @@
                 <element signature="e#7013#7014#0" expanded="true" />
                 <element signature="e#9480#9481#0" expanded="true" />
                 <element signature="e#9544#9545#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonStringImpl.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/glassfish/javax.json/1.1/javax.json-1.1.jar!/org/glassfish/json/JsonStringImpl.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding>
-                <element signature="e#422#423#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -183,14 +179,15 @@
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/C3IMPropertyStImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/resources/EntityResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityListResource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/QueryData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/UrnValidator.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/C3IMObjectImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/C3IMRelationshipStImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/QueryData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/GeoQueryData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java" />
       </list>
     </option>
   </component>
@@ -315,6 +312,7 @@
       <recent name="org.fiware" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.fiware.ngsi" />
       <recent name="org.fiware.ngsi_ld.rest" />
       <recent name="org.fiware.ngsi_ld.impl" />
       <recent name="com.example" />
@@ -560,7 +558,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java</url>
-          <line>125</line>
+          <line>133</line>
           <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
@@ -856,14 +854,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/QueryData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/glassfish/jersey/core/jersey-server/2.26/jersey-server-2.26.jar!/org/glassfish/jersey/server/model/ResourceMethodInvoker.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -993,14 +983,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="444">
@@ -1011,20 +993,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="54" column="66" lean-forward="false" selection-start-line="54" selection-start-column="66" selection-end-line="54" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/QueryData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="20" column="38" lean-forward="false" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/GeoQueryData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+        <state relative-caret-position="460">
+          <caret line="104" column="44" lean-forward="false" selection-start-line="104" selection-start-column="44" selection-end-line="104" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="54" column="66" lean-forward="false" selection-start-line="54" selection-start-column="66" selection-end-line="54" selection-end-column="66" />
+        <state relative-caret-position="448">
+          <caret line="52" column="59" lean-forward="true" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
           <folding />
         </state>
       </provider>

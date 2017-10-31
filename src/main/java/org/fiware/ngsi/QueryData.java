@@ -12,9 +12,12 @@ public class QueryData {
     // Comma separated list of types
     public String types;
 
+    public GeoQueryData geoQuery;
+
     public QueryData() {
         types = "";
         entityIds = "";
         queryExpression = "";
+        geoQuery = new GeoQueryData();
     }
 }

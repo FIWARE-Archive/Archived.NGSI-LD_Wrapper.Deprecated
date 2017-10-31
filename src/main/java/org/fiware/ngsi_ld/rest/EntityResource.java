@@ -1,5 +1,6 @@
 package org.fiware.ngsi_ld.rest;
 
+import org.fiware.ngsi.GeoQueryData;
 import org.fiware.ngsi.NgsiClient;
 import org.fiware.ngsi.QueryData;
 import org.fiware.ngsi.QueryResult;
@@ -95,6 +96,13 @@ public class EntityResource {
 
         if (q != null) {
             qd.queryExpression = q;
+        }
+
+        if (georel != null) {
+            qd.geoQuery = new GeoQueryData();
+            qd.geoQuery.geoRel = georel;
+            qd.geoQuery.coords = coords;
+            qd.geoQuery.geometry = geometry;
         }
 
         QueryResult result = retrieveNgsiEntity(qd, options);
