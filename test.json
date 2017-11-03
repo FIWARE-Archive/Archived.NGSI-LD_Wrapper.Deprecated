@@ -1,0 +1,23 @@
+{
+  "id": "urn:c3im:Room:ISDI-Impact-Room-2",
+  "type": "Room",
+  "temperature": {
+    "type": "PropertyStatement",
+    "value": 30,
+    "timestamp": "2017-10-31T12:00:00"
+  },
+  "dateLastCleaning": "2017-09-20T13:00:00.00Z",
+  "location": {
+    "type": "Point",
+    "coordinates": [
+      -2,
+      40
+    ]
+  },
+  "nearbyRoom": {
+    "type": "RelationshipStatement",
+    "object": "urn:c3im:Room:ISDI-Impact-Room-1",
+    "distance": 23
+  },
+  "owner": "urn:c3im:Person:a45678"
+}

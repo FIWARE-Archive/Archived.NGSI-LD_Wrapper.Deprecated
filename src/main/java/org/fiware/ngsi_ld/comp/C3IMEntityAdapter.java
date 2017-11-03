@@ -2,15 +2,17 @@ package org.fiware.ngsi_ld.comp;
 
 
 import org.fiware.UrnValidator;
+import org.fiware.ngsi_ld.C3IMEntity;
 import org.fiware.ngsi_ld.C3IMPropertySt;
 import org.fiware.ngsi_ld.C3IMRelationshipSt;
 import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
+import org.fiware.ngsi_ld.impl.C3IMPropertyStImpl;
+import org.fiware.ngsi_ld.impl.C3IMRelationshipStImpl;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
+import javax.json.*;
 import javax.json.bind.adapter.JsonbAdapter;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,7 +69,114 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                 adapted.getString("type")
         );
 
+        for (String key : adapted.keySet()) {
+            if(!key.equals("id") && !key.equals("type")) {
+                JsonValue val = adapted.get(key);
+                String type = val.getValueType().name();
+                if (!type.equals("OBJECT")) {
+                    e.addProperty(new C3IMPropertyStImpl(key, val));
+                }
+                else {
+                    JsonObject obj = val.asJsonObject();
+                    String objType = obj.getString("type");
+                    if (type.equals("PropertyStatement")) {
+                        e.addProperty(fromJsonToPropertySt(key, obj));
+                    }
+                    else if (type.equals("RelationshipStatement")) {
+                        e.addRelationship(fromJsonToRelSt(key, obj));
+                    }
+                    else {
+                        e.addProperty(new C3IMPropertyStImpl(key, obj));
+                    }
+                }
+            }
+        }
+
         return e;
+    }
+
+    private C3IMPropertySt fromJsonToPropertySt(String propName, JsonObject obj) {
+        C3IMPropertySt out = new C3IMPropertyStImpl(propName, obj.get("value"));
+
+        for(String key: obj.keySet()) {
+            if (!key.equals("type")) {
+                String valueType = obj.get(key).getValueType().name();
+                if (valueType.equals("OBJECT")) {
+                    JsonObject keyObject = obj.get(key).asJsonObject();
+                    String keyType = keyObject.getString("type");
+                    if (keyType != null) {
+                        if (keyType.equals("PropertyStatement")) {
+                            out.addProperty(fromJsonToPropertySt(key, keyObject));
+                        }
+                        else if (keyType.equals("RelationshipStatement")) {
+                            out.addRelationship(fromJsonToRelSt(key, keyObject));
+                        }
+                        else {
+                            C3IMPropertySt pst = new C3IMPropertyStImpl(key, keyObject);
+                            out.addProperty(pst);
+                        }
+                    }
+
+                }
+                else {
+                    C3IMPropertySt pst = new C3IMPropertyStImpl(key, obj.get(key));
+                    out.addProperty(pst);
+                }
+            }
+        }
+
+        return out;
+    }
+
+    private C3IMRelationshipSt fromJsonToRelSt(String relName, JsonObject obj) {
+        C3IMRelationshipSt out = new C3IMRelationshipStImpl(relName, obj.getString("object"));
+
+        for(String key: obj.keySet()) {
+            if (!key.equals("type")) {
+                String valueType = obj.get(key).getValueType().name();
+                if (valueType.equals("OBJECT")) {
+                    JsonObject keyObject = obj.get(key).asJsonObject();
+                    String keyType = keyObject.getString("type");
+                    if (keyType != null) {
+                        if (keyType.equals("PropertyStatement")) {
+                            out.addProperty(fromJsonToPropertySt(key, keyObject));
+                        }
+                        else if (keyType.equals("RelationshipStatement")) {
+                            out.addRelationship(fromJsonToRelSt(key, keyObject));
+                        }
+                    }
+                    else {
+                        out.addProperty(new C3IMPropertyStImpl(key, keyObject));
+                    }
+                }
+                else {
+                    C3IMPropertySt pst = new C3IMPropertyStImpl(key, obj.get(key));
+                    out.addProperty(pst);
+                }
+            }
+        }
+
+        return out;
+    }
+
+    public static void main(String[] args) throws Exception {
+        C3IMEntityAdapter adapter = new C3IMEntityAdapter();
+
+        InputStream fis = new FileInputStream("/Users/jcantera/work/develop/etsi_java/simple-service/test.json");
+
+        JsonReader reader = Json.createReader(fis);
+
+        JsonObject obj = reader.readObject();
+
+        reader.close();
+
+        C3IMEntityImpl entity = adapter.adaptFromJson(obj);
+
+        JsonObject out = adapter.adaptToJson(entity);
+
+        JsonWriter writer = Json.createWriter(System.out);
+
+        writer.writeObject(out);
     }
 
     private void adaptPropertyStToJson(JsonObjectBuilder builder, String key, C3IMPropertySt pst) {
