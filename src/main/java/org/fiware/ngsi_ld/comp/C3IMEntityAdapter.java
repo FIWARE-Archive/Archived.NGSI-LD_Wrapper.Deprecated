@@ -1,8 +1,8 @@
 package org.fiware.ngsi_ld.comp;
 
 
+import org.fiware.JsonUtilities;
 import org.fiware.UrnValidator;
-import org.fiware.ngsi_ld.C3IMEntity;
 import org.fiware.ngsi_ld.C3IMPropertySt;
 import org.fiware.ngsi_ld.C3IMRelationshipSt;
 import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
@@ -184,7 +184,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         Map<String,C3IMRelationshipSt> relsOfProp = pst.getRelationships();
 
         if (propsOfProp.size() == 0 && relsOfProp.size() == 0) {
-            addValue(builder, key, pst.getValue());
+            JsonUtilities.addValue(builder, key, pst.getValue());
         }
         else {
             JsonObjectBuilder propBuilder = Json.createObjectBuilder();
@@ -219,29 +219,6 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
             }
             builder.add(key, propBuilder.build());
         }
-    }
-
-    private void addValue(JsonObjectBuilder obj, String key, Object value) {
-        if (value instanceof Integer) {
-            obj.add(key, (Integer)value);
-        }
-        else if (value instanceof String) {
-            obj.add(key, (String)value);
-        }
-        else if (value instanceof Float) {
-            obj.add(key, (Float)value);
-        }
-        else if (value instanceof Double) {
-            obj.add(key, (Double)value);
-        }
-        else if (value instanceof Boolean) {
-            obj.add(key, (Boolean)value);
-        }
-        else if (value instanceof JsonValue) {
-            JsonValue val = (JsonValue)value;
-            obj.add(key, val);
-        }
-        // Add more cases here
     }
 
     private void addRelObject(JsonObjectBuilder obj, String key, String object) {

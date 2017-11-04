@@ -15,9 +15,9 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class EntityResource {
                 return Response.status(404).build();
             }
 
-            C3IMEntity c3imEntity = Ngsi2C3IM.transform(array.getJsonObject(0));
+            C3IMEntity c3imEntity = Ngsi2C3IM.toC3IM(array.getJsonObject(0));
             return addJsonLinkHeader(Response.ok()).entity(jsonb.toJson(c3imEntity)).build();
         }
     }
@@ -119,7 +119,7 @@ public class EntityResource {
 
             for(int j = 0; j < array.size(); j++) {
                 JsonObject obj = array.getJsonObject(j);
-                C3IMEntity c3imEntity = Ngsi2C3IM.transform(obj);
+                C3IMEntity c3imEntity = Ngsi2C3IM.toC3IM(obj);
                 resultEntities.add(c3imEntity);
 
                 stb.append(jsonb.toJson(c3imEntity)).append(",");
@@ -133,6 +133,19 @@ public class EntityResource {
 
             return addJsonLinkHeader(Response.ok(stb.toString())).build();
         }
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addEntity(C3IMEntity ent) {
+        NgsiClient client = new NgsiClient(Configuration.ORION_BROKER);
+
+        JsonObject obj = Ngsi2C3IM.toNgsi(ent);
+
+        client.createEntity(obj);
+
+        return Response.created(URI.create("/c3im/entities/" + ent.getId())).build();
     }
 
     private Response.ResponseBuilder addJsonLinkHeader(Response.ResponseBuilder rb) {

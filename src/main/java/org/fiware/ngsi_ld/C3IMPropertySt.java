@@ -13,4 +13,5 @@ package org.fiware.ngsi_ld;
 public interface C3IMPropertySt extends C3IMObject {
     public Object getValue();
     public String getPropertyId();
+    public String getDataType();
 }

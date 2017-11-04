@@ -27,6 +27,7 @@ public class C3IMPropertyStImpl extends C3IMObjectImpl implements C3IMPropertySt
         return value;
     }
 
+    @Override
     public String getDataType() {
         return dataType;
     }
