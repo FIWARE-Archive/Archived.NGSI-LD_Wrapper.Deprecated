@@ -111,7 +111,12 @@ public class EntityResource {
             return Response.status(result.status).build();
         }
         else {
+            if (options.indexOf("keyValues") != -1) {
+                return Response.status(200).entity(result.result).build();
+            }
+
             JsonArray array = result.result.asJsonArray();
+
             List<C3IMEntity> resultEntities = new ArrayList<>();
 
             // Workaround to return a list

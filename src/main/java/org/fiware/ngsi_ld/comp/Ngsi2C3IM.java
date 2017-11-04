@@ -44,18 +44,12 @@ public class Ngsi2C3IM {
             if(!key.equals("id") && !key.equals("type")) {
                 JsonValue value;
                 JsonObject ngsiStructure = null;
-                boolean hasMetadata = true;
                 String attrType = null;
 
-                try {
-                    ngsiStructure = obj.getJsonObject(key);
-                    value = ngsiStructure.get("value");
-                    attrType = ngsiStructure.getString("type");
-                }
-                catch(Throwable thr) {
-                    value = obj.get(key);
-                    hasMetadata = false;
-                }
+
+                ngsiStructure = obj.getJsonObject(key);
+                value = ngsiStructure.get("value");
+                attrType = ngsiStructure.getString("type");
 
                 C3IMObject c3imObj;
                 if (attrType != null && !attrType.equals("Reference")) {
@@ -69,15 +63,12 @@ public class Ngsi2C3IM {
                     ent.addRelationship((C3IMRelationshipSt)c3imObj);
                 }
 
-
-                if (hasMetadata) {
-                    JsonObject metadata = ngsiStructure.getJsonObject("metadata");
-                    if (metadata != null) {
-                        for (String mKey : metadata.keySet()) {
-                            JsonObject metadataStructure = metadata.getJsonObject(mKey);
-                            C3IMPropertySt metaPropertySt = new C3IMPropertyStImpl(mKey, metadataStructure.get("value"));
-                            c3imObj.addProperty(metaPropertySt);
-                        }
+                JsonObject metadata = ngsiStructure.getJsonObject("metadata");
+                if (metadata != null) {
+                    for (String mKey : metadata.keySet()) {
+                        JsonObject metadataStructure = metadata.getJsonObject(mKey);
+                        C3IMPropertySt metaPropertySt = new C3IMPropertyStImpl(mKey, metadataStructure.get("value"));
+                        c3imObj.addProperty(metaPropertySt);
                     }
                 }
             }
