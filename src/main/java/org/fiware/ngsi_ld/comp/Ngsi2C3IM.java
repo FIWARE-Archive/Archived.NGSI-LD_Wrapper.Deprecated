@@ -152,6 +152,11 @@ public class Ngsi2C3IM {
             builder.add("type", prop.getDataType());
         }
 
+        // TODO: Do this with the JSON-LD context
+        if (prop.getPropertyId().equals("location")) {
+            builder.add("type", "geo:json");
+        }
+
         return builder.build();
     }
 
