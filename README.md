@@ -1,6 +1,6 @@
 # NGSI-LD Wrapper for NGSIv2
 
-The purpose of this project is to create a wrapper on top of NGSIv2 aligned with the latest specification made by the ETSI ISG CIM. 
+The purpose of this project is to create a wrapper on top of NGSIv2 aligned with the latest specification made by the ETSI ISG CIM. This wrapper works on top of the Orion Broker and basically adapts between the NGSIv2 information model and the ETSI ISG CIM information model. 
 
 The OMA NGSI information model is currently being evolved to better support linked data (entity relationships), property graphs and semantics (exploiting the capabilities offered by JSON-LD). This work is being conducted under the ETSI ISG CIM initiative. 
 
