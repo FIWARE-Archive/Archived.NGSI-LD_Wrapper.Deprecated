@@ -183,10 +183,11 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         Map<String,C3IMPropertySt> propsOfProp = pst.getProperties();
         Map<String,C3IMRelationshipSt> relsOfProp = pst.getRelationships();
 
+        /*
         if (propsOfProp.size() == 0 && relsOfProp.size() == 0) {
             JsonUtilities.addValue(builder, key, pst.getValue());
         }
-        else {
+        else { */
             JsonObjectBuilder propBuilder = Json.createObjectBuilder();
             propBuilder.add("type", "PropertyStatement");
             // TODO: This will not always be a JsonValue
@@ -197,17 +198,17 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                 adaptPropertyStToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());
-        }
+        /*} */
     }
 
     private void adaptRelationshipStToJson(JsonObjectBuilder builder, String key, C3IMRelationshipSt relst) {
         Map<String,C3IMRelationshipSt> relsOfRels = relst.getRelationships();
         Map<String,C3IMPropertySt> propsOfRels = relst.getProperties();
-
+/*
         if (propsOfRels.size() == 0 && relsOfRels.size() == 0) {
             addRelObject(builder, key, relst.getObject().toString());
         }
-        else {
+        else {*/
             JsonObjectBuilder propBuilder = Json.createObjectBuilder();
             propBuilder.add("type", "RelationshipStatement");
             // TODO: This will not always be a JsonValue
@@ -218,7 +219,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                 adaptPropertyStToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());
-        }
+       /* } */
     }
 
     private void addRelObject(JsonObjectBuilder obj, String key, String object) {
