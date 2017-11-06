@@ -18,6 +18,7 @@ import javax.json.bind.JsonbConfig;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,6 +178,11 @@ public class EntityResource {
 
         NgsiClient client = new NgsiClient(Configuration.ORION_BROKER);
         Response res = client.createEntity(obj);
+
+        if(res.getStatus() == 201) {
+            res = Response.status(201).location(URI.create(
+                    "entities/" + obj.getString("id"))).build();
+        }
 
         return res;
     }
