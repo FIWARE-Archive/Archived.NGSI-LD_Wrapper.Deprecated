@@ -79,10 +79,10 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                 else {
                     JsonObject obj = val.asJsonObject();
                     String objType = obj.getString("type");
-                    if (type.equals("PropertyStatement")) {
+                    if (objType.equals("PropertyStatement")) {
                         e.addProperty(fromJsonToPropertySt(key, obj));
                     }
-                    else if (type.equals("RelationshipStatement")) {
+                    else if (objType.equals("RelationshipStatement")) {
                         e.addRelationship(fromJsonToRelSt(key, obj));
                     }
                     else {
@@ -99,7 +99,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         C3IMPropertySt out = new C3IMPropertyStImpl(propName, obj.get("value"));
 
         for(String key: obj.keySet()) {
-            if (!key.equals("type")) {
+            if (!key.equals("type") && !key.equals("value")) {
                 String valueType = obj.get(key).getValueType().name();
                 if (valueType.equals("OBJECT")) {
                     JsonObject keyObject = obj.get(key).asJsonObject();
@@ -132,7 +132,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         C3IMRelationshipSt out = new C3IMRelationshipStImpl(relName, obj.getString("object"));
 
         for(String key: obj.keySet()) {
-            if (!key.equals("type")) {
+            if (!key.equals("type") && !key.equals("object")) {
                 String valueType = obj.get(key).getValueType().name();
                 if (valueType.equals("OBJECT")) {
                     JsonObject keyObject = obj.get(key).asJsonObject();

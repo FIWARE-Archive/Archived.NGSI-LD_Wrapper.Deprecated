@@ -5,10 +5,7 @@ import org.glassfish.jersey.client.ClientResponse;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -82,13 +79,15 @@ public class NgsiClient {
      *   @param obj JSON Object encoded using the NGSIv2 normalized format
      *
      */
-    public void createEntity(JsonObject obj) {
+    public Response createEntity(JsonObject obj) {
         Client c = ClientBuilder.newClient();
 
         URI uri = URI.create(endPoint);
         WebTarget target = c.target(uri).path("/entities");
 
         Invocation.Builder invocationBuilder =  target.request(MediaType.APPLICATION_JSON);
-        // Response response = invocationBuilder.post();
+        Response response = invocationBuilder.post(Entity.json(obj));
+
+        return response;
     }
 }

@@ -8,6 +8,7 @@ import org.fiware.ngsi_ld.C3IMEntity;
 import org.fiware.ngsi_ld.comp.C3IMEntityAdapter;
 import org.fiware.Configuration;
 import org.fiware.ngsi_ld.comp.Ngsi2C3IM;
+import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -142,15 +143,18 @@ public class EntityResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addEntity(C3IMEntity ent) {
+    public Response addEntity(String ent) {
+        JsonbConfig config = new JsonbConfig();
+
+        config.withAdapters(new C3IMEntityAdapter());
+        Jsonb jsonb = JsonbBuilder.create(config);
+        C3IMEntity entity = jsonb.fromJson(ent,C3IMEntityImpl.class);
+        JsonObject obj = Ngsi2C3IM.toNgsi(entity);
+
         NgsiClient client = new NgsiClient(Configuration.ORION_BROKER);
+        Response res = client.createEntity(obj);
 
-        JsonObject obj = Ngsi2C3IM.toNgsi(ent);
-
-        client.createEntity(obj);
-
-        return Response.created(URI.create("/c3im/entities/" + ent.getId())).build();
+        return res;
     }
 
     private Response.ResponseBuilder addJsonLinkHeader(Response.ResponseBuilder rb) {
