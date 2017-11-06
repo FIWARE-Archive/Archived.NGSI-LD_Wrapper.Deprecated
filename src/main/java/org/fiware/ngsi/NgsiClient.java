@@ -42,10 +42,14 @@ public class NgsiClient {
             target = target.queryParam("q", q.queryExpression);
         }
 
-        if(q.geoQuery.geoRel.length() > 0) {
+        if (q.geoQuery.geoRel.length() > 0) {
             target = target.queryParam("georel", q.geoQuery.geoRel);
             target = target.queryParam("geometry", q.geoQuery.geometry);
             target = target.queryParam("coords", q.geoQuery.coords);
+        }
+
+        if (q.attrs.length() > 0) {
+            target = target.queryParam("attrs", q.attrs);
         }
 
         if (options != null && options.size() > 0) {

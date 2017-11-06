@@ -18,7 +18,6 @@ import javax.json.bind.JsonbConfig;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,9 @@ public class EntityResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Response getEntity(@PathParam("id") String id, @QueryParam("options") List<String> options) {
+    public Response getEntity(@PathParam("id") String id,
+                              @QueryParam("attrs") String attrs,
+                              @QueryParam("options") List<String> options) {
         JsonbConfig config = new JsonbConfig();
 
         config.withAdapters(new C3IMEntityAdapter());
@@ -52,6 +53,9 @@ public class EntityResource {
 
         QueryData qd = new QueryData();
         qd.entityIds = id;
+        if (attrs != null) {
+            qd.attrs = attrs;
+        }
 
         QueryResult result = retrieveNgsiEntity(qd, options);
 
@@ -62,6 +66,10 @@ public class EntityResource {
             JsonArray array = result.result.asJsonArray();
             if (array.size() == 0) {
                 return Response.status(404).build();
+            }
+
+            if (options.indexOf("keyValues") != -1) {
+                return Response.status(200).entity(array.getJsonObject(0)).build();
             }
 
             C3IMEntity c3imEntity = Ngsi2C3IM.toC3IM(array.getJsonObject(0));
@@ -80,6 +88,7 @@ public class EntityResource {
     public Response getEntities(@QueryParam("id") String id, @QueryParam("type") String type,
                               @QueryParam("q") String q, @QueryParam("georel") String georel,
                               @QueryParam("geometry") String geometry, @QueryParam("coords") String coords,
+                                @QueryParam("attrs") String attrs,
                               @QueryParam("options") List<String> options) {
         JsonbConfig config = new JsonbConfig();
 
@@ -104,6 +113,10 @@ public class EntityResource {
             qd.geoQuery.geoRel = georel;
             qd.geoQuery.coords = coords;
             qd.geoQuery.geometry = geometry;
+        }
+
+        if (attrs != null) {
+            qd.attrs = attrs;
         }
 
         QueryResult result = retrieveNgsiEntity(qd, options);
