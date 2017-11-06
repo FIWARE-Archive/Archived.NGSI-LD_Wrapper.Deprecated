@@ -74,7 +74,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                 JsonValue val = adapted.get(key);
                 String type = val.getValueType().name();
                 if (!type.equals("OBJECT")) {
-                    e.addProperty(new C3IMPropertyStImpl(key, val));
+                    throw new Exception("400");
                 }
                 else {
                     JsonObject obj = val.asJsonObject();
@@ -86,7 +86,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                         e.addRelationship(fromJsonToRelSt(key, obj));
                     }
                     else {
-                        e.addProperty(new C3IMPropertyStImpl(key, obj));
+                        throw new Exception("400");
                     }
                 }
             }
@@ -95,7 +95,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         return e;
     }
 
-    private C3IMPropertySt fromJsonToPropertySt(String propName, JsonObject obj) {
+    private C3IMPropertySt fromJsonToPropertySt(String propName, JsonObject obj) throws Exception {
         C3IMPropertySt out = new C3IMPropertyStImpl(propName, obj.get("value"));
 
         for(String key: obj.keySet()) {
@@ -119,8 +119,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
 
                 }
                 else {
-                    C3IMPropertySt pst = new C3IMPropertyStImpl(key, obj.get(key));
-                    out.addProperty(pst);
+                    throw new Exception("400");
                 }
             }
         }
@@ -128,7 +127,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         return out;
     }
 
-    private C3IMRelationshipSt fromJsonToRelSt(String relName, JsonObject obj) {
+    private C3IMRelationshipSt fromJsonToRelSt(String relName, JsonObject obj) throws Exception {
         C3IMRelationshipSt out = new C3IMRelationshipStImpl(relName, obj.getString("object"));
 
         for(String key: obj.keySet()) {
@@ -150,8 +149,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                     }
                 }
                 else {
-                    C3IMPropertySt pst = new C3IMPropertyStImpl(key, obj.get(key));
-                    out.addProperty(pst);
+                    throw new Exception("400");
                 }
             }
         }

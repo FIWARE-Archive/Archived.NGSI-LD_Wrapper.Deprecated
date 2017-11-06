@@ -20,8 +20,8 @@
       <file leaf-file-name="EntityResource.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="75" column="46" lean-forward="true" selection-start-line="75" selection-start-column="46" selection-end-line="75" selection-end-column="46" />
+            <state relative-caret-position="206">
+              <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -42,11 +42,21 @@
       <file leaf-file-name="C3IMEntityAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="221" column="14" lean-forward="false" selection-start-line="221" selection-start-column="14" selection-end-line="221" selection-end-column="14" />
+            <state relative-caret-position="256">
+              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdaptedObjectDeserializer.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/eclipse/yasson/1.0/yasson-1.0.jar!/org/eclipse/yasson/internal/serializer/AdaptedObjectDeserializer.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="359">
+              <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -107,16 +117,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="C3IMRelationshipSt.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/C3IMRelationshipSt.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="34" lean-forward="false" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Ngsi2C3IM.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -136,6 +136,11 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>fromJsonToPropertySt</find>
+    </findStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -183,9 +188,9 @@
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/C3IMPropertyStImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/wrapper/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/QueryData.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java" />
       </list>
     </option>
@@ -623,19 +628,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java</url>
-          <line>167</line>
+          <line>178</line>
           <properties />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java</url>
-          <line>164</line>
+          <line>169</line>
           <properties />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java</url>
-          <line>133</line>
+          <line>132</line>
           <properties />
           <option name="timeStamp" value="31" />
         </line-breakpoint>
@@ -651,20 +656,18 @@
           <properties />
           <option name="timeStamp" value="33" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java</url>
+          <line>172</line>
+          <properties />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="34" />
+      <option name="time" value="35" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="41" column="13" lean-forward="false" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1044,16 +1047,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="221" column="14" lean-forward="false" selection-start-line="221" selection-start-column="14" selection-end-line="221" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2C3IM.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1776">
@@ -1078,10 +1071,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/eclipse/yasson/1.0/yasson-1.0.jar!/org/eclipse/yasson/internal/serializer/AdaptedObjectDeserializer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/C3IMEntityAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="75" column="46" lean-forward="true" selection-start-line="75" selection-start-column="46" selection-end-line="75" selection-end-column="46" />
+        <state relative-caret-position="206">
+          <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

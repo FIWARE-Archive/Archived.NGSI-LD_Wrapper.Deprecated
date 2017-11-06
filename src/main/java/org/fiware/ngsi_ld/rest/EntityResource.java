@@ -161,8 +161,19 @@ public class EntityResource {
 
         config.withAdapters(new C3IMEntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
-        C3IMEntity entity = jsonb.fromJson(ent,C3IMEntityImpl.class);
-        JsonObject obj = Ngsi2C3IM.toNgsi(entity);
+
+        JsonObject obj = null;
+
+        try {
+            C3IMEntity entity = jsonb.fromJson(ent, C3IMEntityImpl.class);
+
+            obj = Ngsi2C3IM.toNgsi(entity);
+        }
+        catch(Exception ex) {
+            if(ex.getCause().getMessage().equals("400")) {
+               return Response.status(400).build();
+            }
+        }
 
         NgsiClient client = new NgsiClient(Configuration.ORION_BROKER);
         Response res = client.createEntity(obj);
