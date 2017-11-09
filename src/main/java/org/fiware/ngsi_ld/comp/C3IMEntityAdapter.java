@@ -1,7 +1,5 @@
 package org.fiware.ngsi_ld.comp;
 
-
-import org.fiware.JsonUtilities;
 import org.fiware.UrnValidator;
 import org.fiware.ngsi_ld.C3IMPropertySt;
 import org.fiware.ngsi_ld.C3IMRelationshipSt;
@@ -97,9 +95,13 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
 
     private C3IMPropertySt fromJsonToPropertySt(String propName, JsonObject obj) throws Exception {
         C3IMPropertySt out = new C3IMPropertyStImpl(propName, obj.get("value"));
+        String timestamp = obj.getString("timestamp", "");
+        if (timestamp.length() > 0) {
+            ((C3IMPropertyStImpl)out).setTimestamp(timestamp);
+        }
 
         for(String key: obj.keySet()) {
-            if (!key.equals("type") && !key.equals("value")) {
+            if (!key.equals("type") && !key.equals("value") && !key.equals("timestamp")) {
                 String valueType = obj.get(key).getValueType().name();
                 if (valueType.equals("OBJECT")) {
                     JsonObject keyObject = obj.get(key).asJsonObject();
@@ -190,6 +192,10 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
             propBuilder.add("type", "PropertyStatement");
             // TODO: This will not always be a JsonValue
             propBuilder.add("value", (JsonValue)pst.getValue());
+            if (pst.getTimestamp() != null) {
+                propBuilder.add("timestamp", pst.getTimestamp());
+            }
+
             Set<String> keys = propsOfProp.keySet();
             for (String keyProp : keys) {
                 C3IMPropertySt newSt = propsOfProp.get(keyProp);

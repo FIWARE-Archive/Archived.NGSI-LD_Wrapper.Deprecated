@@ -16,6 +16,11 @@ public class C3IMPropertyStImpl extends C3IMObjectImpl implements C3IMPropertySt
     private Object value;
     private String propertyId;
     private String dataType;
+    private String timestamp;
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public String getPropertyId() {
@@ -25,6 +30,11 @@ public class C3IMPropertyStImpl extends C3IMObjectImpl implements C3IMPropertySt
     @Override
     public Object getValue() {
         return value;
+    }
+
+    @Override
+    public String getTimestamp() {
+        return timestamp;
     }
 
     @Override

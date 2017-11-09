@@ -133,6 +133,13 @@ public class Ngsi2C3IM {
             JsonObjectBuilder metadataValueBuilder = Json.createObjectBuilder();
             String metadataName = prop.getPropertyId();
             builder.add(metadataName, toNgsiAttr(metadataValueBuilder, prop));
+
+            if (prop.getTimestamp() != null) {
+                JsonObjectBuilder timestampValueBuilder = Json.createObjectBuilder();
+                timestampValueBuilder.add("type", "DateTime");
+                timestampValueBuilder.add("value", prop.getTimestamp());
+                builder.add("timestamp", timestampValueBuilder.build());
+            }
         }
     }
 

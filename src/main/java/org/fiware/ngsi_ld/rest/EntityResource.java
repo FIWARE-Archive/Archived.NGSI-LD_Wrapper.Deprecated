@@ -91,11 +91,6 @@ public class EntityResource {
                               @QueryParam("geometry") String geometry, @QueryParam("coords") String coords,
                                 @QueryParam("attrs") String attrs,
                               @QueryParam("options") List<String> options) {
-        JsonbConfig config = new JsonbConfig();
-
-        config.withAdapters(new C3IMEntityAdapter());
-        Jsonb jsonb = JsonbBuilder.create(config);
-
         QueryData qd = new QueryData();
         if (id != null) {
             qd.entityIds = id;
@@ -119,6 +114,11 @@ public class EntityResource {
         if (attrs != null) {
             qd.attrs = attrs;
         }
+
+        JsonbConfig config = new JsonbConfig();
+
+        config.withAdapters(new C3IMEntityAdapter());
+        Jsonb jsonb = JsonbBuilder.create(config);
 
         QueryResult result = retrieveNgsiEntity(qd, options);
 
