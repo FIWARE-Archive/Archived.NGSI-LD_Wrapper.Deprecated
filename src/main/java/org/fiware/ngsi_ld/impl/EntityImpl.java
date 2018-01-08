@@ -1,6 +1,6 @@
 package org.fiware.ngsi_ld.impl;
 
-import org.fiware.ngsi_ld.C3IMEntity;
+import org.fiware.ngsi_ld.CEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  *
  *
  */
-public class C3IMEntityImpl extends C3IMObjectImpl implements C3IMEntity {
+public class EntityImpl extends CObjectImpl implements CEntity {
     // Entity id
     private String id;
     // Entity type
@@ -24,13 +24,13 @@ public class C3IMEntityImpl extends C3IMObjectImpl implements C3IMEntity {
     // JSON-LD Context
     private Map context = new HashMap<String, String>();
 
-    public C3IMEntityImpl(String id, String type, Map<String,String> ctx) {
+    public EntityImpl(String id, String type, Map<String,String> ctx) {
         this.id = id;
         this.type = type;
         this.context = ctx;
     }
 
-    public C3IMEntityImpl(String id, String type) {
+    public EntityImpl(String id, String type) {
         this(id, type, null);
     }
 

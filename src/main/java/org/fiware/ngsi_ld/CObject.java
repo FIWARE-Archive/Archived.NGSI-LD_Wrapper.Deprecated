@@ -1,0 +1,36 @@
+package org.fiware.ngsi_ld;
+
+import java.net.URI;
+import java.util.Map;
+
+/**
+ *
+ *   A C3IM Object
+ *
+ *   Copyright (c) 2017 FIWARE Foundation e.V.
+ *
+ *   LICENSE: MIT
+ *
+ *
+ */
+public interface CObject {
+    public CProperty getProperty(String id);
+
+    public Object getPropertyValue(String id);
+
+    public CRelationship getRelationship(String id);
+
+    public URI getRelationshipObject(String id);
+
+    public void addProperty(CProperty prop);
+
+    public void addRelationship(CRelationship rel);
+
+    public Map<String,CRelationship> getRelationships();
+
+    public Map<String,CProperty> getProperties();
+
+    public void setTimestamp(String timestamp);
+
+    public String getTimestamp();
+}

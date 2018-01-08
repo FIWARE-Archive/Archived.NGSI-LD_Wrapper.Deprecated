@@ -12,7 +12,7 @@ import java.util.Map;
  *
  *
  */
-public interface C3IMEntity extends C3IMObject {
+public interface CEntity extends CObject {
     public String getId();
     public String getType();
 

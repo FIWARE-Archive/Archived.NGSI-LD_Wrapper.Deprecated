@@ -12,7 +12,7 @@ import java.net.URI;
  *
  *
  */
-public interface C3IMRelationshipSt extends C3IMObject {
+public interface CRelationship extends CObject {
     public URI getObject();
     public String getRelationshipId();
 }

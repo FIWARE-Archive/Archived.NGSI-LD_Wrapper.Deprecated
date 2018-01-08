@@ -1,6 +1,6 @@
 package org.fiware.ngsi_ld.impl;
 
-import org.fiware.ngsi_ld.C3IMPropertySt;
+import org.fiware.ngsi_ld.CProperty;
 
 /**
  *
@@ -12,15 +12,10 @@ import org.fiware.ngsi_ld.C3IMPropertySt;
  *
  *
  */
-public class C3IMPropertyStImpl extends C3IMObjectImpl implements C3IMPropertySt {
+public class CPropertyImpl extends CObjectImpl implements CProperty {
     private Object value;
     private String propertyId;
     private String dataType;
-    private String timestamp;
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
 
     @Override
     public String getPropertyId() {
@@ -33,21 +28,16 @@ public class C3IMPropertyStImpl extends C3IMObjectImpl implements C3IMPropertySt
     }
 
     @Override
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    @Override
     public String getDataType() {
         return dataType;
     }
 
-    public C3IMPropertyStImpl(String propertyId, Object value) {
+    public CPropertyImpl(String propertyId, Object value) {
         this.propertyId = propertyId;
         this.value = value;
     }
 
-    public C3IMPropertyStImpl(String propertyId, Object value, String dataType) {
+    public CPropertyImpl(String propertyId, Object value, String dataType) {
         this(propertyId, value);
         this.dataType = dataType;
     }

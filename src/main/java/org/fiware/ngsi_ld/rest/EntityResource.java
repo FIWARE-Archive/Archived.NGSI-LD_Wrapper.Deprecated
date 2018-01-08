@@ -4,11 +4,11 @@ import org.fiware.ngsi.GeoQueryData;
 import org.fiware.ngsi.NgsiClient;
 import org.fiware.ngsi.QueryData;
 import org.fiware.ngsi.QueryResult;
-import org.fiware.ngsi_ld.C3IMEntity;
-import org.fiware.ngsi_ld.comp.C3IMEntityAdapter;
+import org.fiware.ngsi_ld.CEntity;
+import org.fiware.ngsi_ld.comp.EntityAdapter;
 import org.fiware.Configuration;
-import org.fiware.ngsi_ld.comp.Ngsi2C3IM;
-import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
+import org.fiware.ngsi_ld.comp.Ngsi2NGSILD;
+import org.fiware.ngsi_ld.impl.EntityImpl;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -49,7 +49,7 @@ public class EntityResource {
                               @QueryParam("options") List<String> options) {
         JsonbConfig config = new JsonbConfig();
 
-        config.withAdapters(new C3IMEntityAdapter());
+        config.withAdapters(new EntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
 
         QueryData qd = new QueryData();
@@ -73,7 +73,7 @@ public class EntityResource {
                 return Response.status(200).entity(array.getJsonObject(0)).build();
             }
 
-            C3IMEntity c3imEntity = Ngsi2C3IM.toC3IM(array.getJsonObject(0));
+            CEntity c3imEntity = Ngsi2NGSILD.toC3IM(array.getJsonObject(0));
             return addJsonLinkHeader(Response.ok()).entity(jsonb.toJson(c3imEntity)).build();
         }
     }
@@ -117,7 +117,7 @@ public class EntityResource {
 
         JsonbConfig config = new JsonbConfig();
 
-        config.withAdapters(new C3IMEntityAdapter());
+        config.withAdapters(new EntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
 
         QueryResult result = retrieveNgsiEntity(qd, options);
@@ -132,14 +132,14 @@ public class EntityResource {
 
             JsonArray array = result.result.asJsonArray();
 
-            List<C3IMEntity> resultEntities = new ArrayList<>();
+            List<CEntity> resultEntities = new ArrayList<>();
 
             // Workaround to return a list
             StringBuffer stb = new StringBuffer("[");
 
             for(int j = 0; j < array.size(); j++) {
                 JsonObject obj = array.getJsonObject(j);
-                C3IMEntity c3imEntity = Ngsi2C3IM.toC3IM(obj);
+                CEntity c3imEntity = Ngsi2NGSILD.toC3IM(obj);
                 resultEntities.add(c3imEntity);
 
                 stb.append(jsonb.toJson(c3imEntity)).append(",");
@@ -160,15 +160,15 @@ public class EntityResource {
     public Response addEntity(String ent) {
         JsonbConfig config = new JsonbConfig();
 
-        config.withAdapters(new C3IMEntityAdapter());
+        config.withAdapters(new EntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
 
         JsonObject obj = null;
 
         try {
-            C3IMEntity entity = jsonb.fromJson(ent, C3IMEntityImpl.class);
+            CEntity entity = jsonb.fromJson(ent, EntityImpl.class);
 
-            obj = Ngsi2C3IM.toNgsi(entity);
+            obj = Ngsi2NGSILD.toNgsi(entity);
         }
         catch(Exception ex) {
             if(ex.getCause().getMessage().equals("400")) {

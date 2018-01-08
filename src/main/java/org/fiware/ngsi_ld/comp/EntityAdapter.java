@@ -1,11 +1,11 @@
 package org.fiware.ngsi_ld.comp;
 
 import org.fiware.UrnValidator;
-import org.fiware.ngsi_ld.C3IMPropertySt;
-import org.fiware.ngsi_ld.C3IMRelationshipSt;
-import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
-import org.fiware.ngsi_ld.impl.C3IMPropertyStImpl;
-import org.fiware.ngsi_ld.impl.C3IMRelationshipStImpl;
+import org.fiware.ngsi_ld.CProperty;
+import org.fiware.ngsi_ld.CRelationship;
+import org.fiware.ngsi_ld.impl.EntityImpl;
+import org.fiware.ngsi_ld.impl.CPropertyImpl;
+import org.fiware.ngsi_ld.impl.CRelationshipImpl;
 
 import javax.json.*;
 import javax.json.bind.adapter.JsonbAdapter;
@@ -24,9 +24,9 @@ import java.util.Set;
  *
  *
  */
-public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObject> {
+public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
     @Override
-    public JsonObject adaptToJson(C3IMEntityImpl e) throws Exception {
+    public JsonObject adaptToJson(EntityImpl e) throws Exception {
         JsonObjectBuilder builder = Json.createObjectBuilder();
 
         String id = e.getId();
@@ -38,21 +38,21 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         builder.add("type", e.getType());
 
         // Iterate over the properties of the C3IM entity
-        Map<String,C3IMPropertySt> props = e.getProperties();
+        Map<String,CProperty> props = e.getProperties();
 
         Set<String> keys = props.keySet();
         for (String key:keys) {
-            C3IMPropertySt prop = props.get(key);
+            CProperty prop = props.get(key);
 
             adaptPropertyStToJson(builder,key, prop);
         }
 
         // Iterate over the relationships of the C3IM entity
-        Map<String,C3IMRelationshipSt> rels = e.getRelationships();
+        Map<String,CRelationship> rels = e.getRelationships();
 
         Set<String> relKeys = rels.keySet();
         for (String relKey:relKeys) {
-            C3IMRelationshipSt rel = rels.get(relKey);
+            CRelationship rel = rels.get(relKey);
 
             adaptRelationshipStToJson(builder,relKey, rel);
         }
@@ -61,8 +61,8 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
     }
 
     @Override
-    public C3IMEntityImpl adaptFromJson(JsonObject adapted) throws Exception {
-        C3IMEntityImpl e = new C3IMEntityImpl(
+    public EntityImpl adaptFromJson(JsonObject adapted) throws Exception {
+        EntityImpl e = new EntityImpl(
                 adapted.getString("id"),
                 adapted.getString("type")
         );
@@ -93,11 +93,11 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         return e;
     }
 
-    private C3IMPropertySt fromJsonToPropertySt(String propName, JsonObject obj) throws Exception {
-        C3IMPropertySt out = new C3IMPropertyStImpl(propName, obj.get("value"));
+    private CProperty fromJsonToPropertySt(String propName, JsonObject obj) throws Exception {
+        CProperty out = new CPropertyImpl(propName, obj.get("value"));
         String timestamp = obj.getString("timestamp", "");
         if (timestamp.length() > 0) {
-            ((C3IMPropertyStImpl)out).setTimestamp(timestamp);
+            ((CPropertyImpl)out).setTimestamp(timestamp);
         }
 
         for(String key: obj.keySet()) {
@@ -114,7 +114,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                             out.addRelationship(fromJsonToRelSt(key, keyObject));
                         }
                         else {
-                            C3IMPropertySt pst = new C3IMPropertyStImpl(key, keyObject);
+                            CProperty pst = new CPropertyImpl(key, keyObject);
                             out.addProperty(pst);
                         }
                     }
@@ -129,8 +129,8 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         return out;
     }
 
-    private C3IMRelationshipSt fromJsonToRelSt(String relName, JsonObject obj) throws Exception {
-        C3IMRelationshipSt out = new C3IMRelationshipStImpl(relName, obj.getString("object"));
+    private CRelationship fromJsonToRelSt(String relName, JsonObject obj) throws Exception {
+        CRelationship out = new CRelationshipImpl(relName, obj.getString("object"));
 
         for(String key: obj.keySet()) {
             if (!key.equals("type") && !key.equals("object")) {
@@ -147,7 +147,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
                         }
                     }
                     else {
-                        out.addProperty(new C3IMPropertyStImpl(key, keyObject));
+                        out.addProperty(new CPropertyImpl(key, keyObject));
                     }
                 }
                 else {
@@ -160,7 +160,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
     }
 
     public static void main(String[] args) throws Exception {
-        C3IMEntityAdapter adapter = new C3IMEntityAdapter();
+        EntityAdapter adapter = new EntityAdapter();
 
         InputStream fis = new FileInputStream("/Users/jcantera/work/develop/etsi_java/simple-service/test.json");
 
@@ -170,7 +170,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
 
         reader.close();
 
-        C3IMEntityImpl entity = adapter.adaptFromJson(obj);
+        EntityImpl entity = adapter.adaptFromJson(obj);
 
         JsonObject out = adapter.adaptToJson(entity);
 
@@ -179,9 +179,9 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
         writer.writeObject(out);
     }
 
-    private void adaptPropertyStToJson(JsonObjectBuilder builder, String key, C3IMPropertySt pst) {
-        Map<String,C3IMPropertySt> propsOfProp = pst.getProperties();
-        Map<String,C3IMRelationshipSt> relsOfProp = pst.getRelationships();
+    private void adaptPropertyStToJson(JsonObjectBuilder builder, String key, CProperty pst) {
+        Map<String,CProperty> propsOfProp = pst.getProperties();
+        Map<String,CRelationship> relsOfProp = pst.getRelationships();
 
         /*
         if (propsOfProp.size() == 0 && relsOfProp.size() == 0) {
@@ -198,16 +198,16 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
 
             Set<String> keys = propsOfProp.keySet();
             for (String keyProp : keys) {
-                C3IMPropertySt newSt = propsOfProp.get(keyProp);
+                CProperty newSt = propsOfProp.get(keyProp);
                 adaptPropertyStToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());
         /*} */
     }
 
-    private void adaptRelationshipStToJson(JsonObjectBuilder builder, String key, C3IMRelationshipSt relst) {
-        Map<String,C3IMRelationshipSt> relsOfRels = relst.getRelationships();
-        Map<String,C3IMPropertySt> propsOfRels = relst.getProperties();
+    private void adaptRelationshipStToJson(JsonObjectBuilder builder, String key, CRelationship relst) {
+        Map<String,CRelationship> relsOfRels = relst.getRelationships();
+        Map<String,CProperty> propsOfRels = relst.getProperties();
 /*
         if (propsOfRels.size() == 0 && relsOfRels.size() == 0) {
             addRelObject(builder, key, relst.getObject().toString());
@@ -219,7 +219,7 @@ public class C3IMEntityAdapter implements JsonbAdapter<C3IMEntityImpl, JsonObjec
             propBuilder.add("object", relst.getObject().toString());
             Set<String> keys = propsOfRels.keySet();
             for (String keyProp : keys) {
-                C3IMPropertySt newSt = propsOfRels.get(keyProp);
+                CProperty newSt = propsOfRels.get(keyProp);
                 adaptPropertyStToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());

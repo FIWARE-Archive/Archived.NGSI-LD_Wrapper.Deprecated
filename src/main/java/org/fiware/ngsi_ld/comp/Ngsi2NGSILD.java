@@ -1,18 +1,16 @@
 package org.fiware.ngsi_ld.comp;
 
 import org.fiware.JsonUtilities;
-import org.fiware.ngsi_ld.C3IMEntity;
-import org.fiware.ngsi_ld.C3IMObject;
-import org.fiware.ngsi_ld.C3IMPropertySt;
-import org.fiware.ngsi_ld.C3IMRelationshipSt;
-import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
-import org.fiware.ngsi_ld.impl.C3IMPropertyStImpl;
-import org.fiware.ngsi_ld.impl.C3IMRelationshipStImpl;
+import org.fiware.ngsi_ld.CEntity;
+import org.fiware.ngsi_ld.CObject;
+import org.fiware.ngsi_ld.CProperty;
+import org.fiware.ngsi_ld.CRelationship;
+import org.fiware.ngsi_ld.impl.EntityImpl;
+import org.fiware.ngsi_ld.impl.CPropertyImpl;
+import org.fiware.ngsi_ld.impl.CRelationshipImpl;
 
 import javax.json.*;
-import javax.json.bind.JsonbBuilder;
 import javax.json.stream.JsonGenerator;
-import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ import java.util.Map;
  *
  *
  */
-public class Ngsi2C3IM {
+public class Ngsi2NGSILD {
     /**
      *
      *  Converts a Json normalized representation of NGSIv2 to a C3IM Entity
@@ -34,40 +32,44 @@ public class Ngsi2C3IM {
      * @param obj
      * @return
      */
-    public static C3IMEntity toC3IM(JsonObject obj) {
+    public static CEntity toC3IM(JsonObject obj) {
         String id = obj.getString("id");
         String type = obj.getString("type");
 
-        C3IMEntity ent = new C3IMEntityImpl(id, type);
+        CEntity ent = new EntityImpl(id, type);
 
-        for(String key:obj.keySet()) {
-            if(!key.equals("id") && !key.equals("type")) {
+        for (String key:obj.keySet()) {
+            if (!key.equals("id") && !key.equals("type")) {
                 JsonValue value;
                 JsonObject ngsiStructure = null;
                 String attrType = null;
-
+                String timestamp = null;
 
                 ngsiStructure = obj.getJsonObject(key);
                 value = ngsiStructure.get("value");
                 attrType = ngsiStructure.getString("type");
 
-                C3IMObject c3imObj;
+                CObject c3imObj;
                 if (attrType != null && !attrType.equals("Reference")) {
-                    c3imObj = new C3IMPropertyStImpl(key, value);
-                    ent.addProperty((C3IMPropertySt)c3imObj);
+                    c3imObj = new CPropertyImpl(key, value);
+                    ent.addProperty((CProperty)c3imObj);
                 }
                 else {
                     String valStr = ngsiStructure.getString("value");
                     System.out.println(valStr);
-                    c3imObj = new C3IMRelationshipStImpl(key, valStr);
-                    ent.addRelationship((C3IMRelationshipSt)c3imObj);
+                    c3imObj = new CRelationshipImpl(key, valStr);
+                    ent.addRelationship((CRelationship)c3imObj);
                 }
 
                 JsonObject metadata = ngsiStructure.getJsonObject("metadata");
                 if (metadata != null) {
                     for (String mKey : metadata.keySet()) {
                         JsonObject metadataStructure = metadata.getJsonObject(mKey);
-                        C3IMPropertySt metaPropertySt = new C3IMPropertyStImpl(mKey, metadataStructure.get("value"));
+                        if (mKey.equals("timestamp")) {
+                            c3imObj.setTimestamp(metadataStructure.getString("value"));
+                            continue;
+                        }
+                        CProperty metaPropertySt = new CPropertyImpl(mKey, metadataStructure.get("value"));
                         c3imObj.addProperty(metaPropertySt);
                     }
                 }
@@ -85,40 +87,47 @@ public class Ngsi2C3IM {
      * @param ent
      * @return
      */
-    public static JsonObject toNgsi(C3IMEntity ent) {
+    public static JsonObject toNgsi(CEntity ent) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
 
         builder.add("id", ent.getId());
         builder.add("type", ent.getType());
 
-        Map<String, C3IMPropertySt> properties = ent.getProperties();
+        Map<String, CProperty> properties = ent.getProperties();
 
-        for(C3IMPropertySt prop:properties.values()) {
+        for(CProperty prop:properties.values()) {
             JsonObjectBuilder valueBuilder = Json.createObjectBuilder();
             String attrName = prop.getPropertyId();
             JsonObjectBuilder metadataBuilder = Json.createObjectBuilder();
 
-            Map<String, C3IMPropertySt> propsOfProps = prop.getProperties();
+            if (prop.getTimestamp() != null) {
+                JsonObjectBuilder timestampValueBuilder = Json.createObjectBuilder();
+                timestampValueBuilder.add("type", "DateTime");
+                timestampValueBuilder.add("value", prop.getTimestamp());
+                metadataBuilder.add("timestamp", timestampValueBuilder.build());
+            }
+
+            Map<String, CProperty> propsOfProps = prop.getProperties();
             addProperties(propsOfProps,metadataBuilder);
 
-            Map<String, C3IMRelationshipSt> relsOfProps = prop.getRelationships();
+            Map<String, CRelationship> relsOfProps = prop.getRelationships();
             addRelationships(relsOfProps, metadataBuilder);
 
             valueBuilder.add("metadata", metadataBuilder.build());
             builder.add(attrName, toNgsiAttr(valueBuilder, prop));
         }
 
-        Map<String, C3IMRelationshipSt> rels = ent.getRelationships();
+        Map<String, CRelationship> rels = ent.getRelationships();
 
-        for(C3IMRelationshipSt rel:rels.values()) {
+        for(CRelationship rel:rels.values()) {
             JsonObjectBuilder valueBuilder = Json.createObjectBuilder();
             String attrName = rel.getRelationshipId();
             JsonObjectBuilder metadataBuilder = Json.createObjectBuilder();
 
-            Map<String, C3IMPropertySt> propsOfRels = rel.getProperties();
+            Map<String, CProperty> propsOfRels = rel.getProperties();
             addProperties(propsOfRels, metadataBuilder);
 
-            Map<String, C3IMRelationshipSt> relsOfRels = rel.getRelationships();
+            Map<String, CRelationship> relsOfRels = rel.getRelationships();
             addRelationships(relsOfRels, metadataBuilder);
 
             valueBuilder.add("metadata", metadataBuilder.build());
@@ -128,30 +137,23 @@ public class Ngsi2C3IM {
         return builder.build();
     }
 
-    private static void addProperties(Map<String, C3IMPropertySt> props, JsonObjectBuilder builder) {
-        for(C3IMPropertySt prop:props.values()) {
+    private static void addProperties(Map<String, CProperty> props, JsonObjectBuilder builder) {
+        for(CProperty prop:props.values()) {
             JsonObjectBuilder metadataValueBuilder = Json.createObjectBuilder();
             String metadataName = prop.getPropertyId();
             builder.add(metadataName, toNgsiAttr(metadataValueBuilder, prop));
-
-            if (prop.getTimestamp() != null) {
-                JsonObjectBuilder timestampValueBuilder = Json.createObjectBuilder();
-                timestampValueBuilder.add("type", "DateTime");
-                timestampValueBuilder.add("value", prop.getTimestamp());
-                builder.add("timestamp", timestampValueBuilder.build());
-            }
         }
     }
 
-    private static void addRelationships(Map<String, C3IMRelationshipSt> rels, JsonObjectBuilder builder) {
-        for(C3IMRelationshipSt relOfProp:rels.values()) {
+    private static void addRelationships(Map<String, CRelationship> rels, JsonObjectBuilder builder) {
+        for(CRelationship relOfProp:rels.values()) {
             JsonObjectBuilder metadataValueBuilder = Json.createObjectBuilder();
             String metadataName = relOfProp.getRelationshipId();
             builder.add(metadataName, toNgsiAttr(metadataValueBuilder, relOfProp));
         }
     }
 
-    private static JsonObject toNgsiAttr(JsonObjectBuilder builder, C3IMPropertySt prop) {
+    private static JsonObject toNgsiAttr(JsonObjectBuilder builder, CProperty prop) {
         Object value = prop.getValue();
         JsonUtilities.addValue(builder, "value", value);
 
@@ -167,7 +169,7 @@ public class Ngsi2C3IM {
         return builder.build();
     }
 
-    private static JsonObject toNgsiAttr(JsonObjectBuilder builder, C3IMRelationshipSt rel) {
+    private static JsonObject toNgsiAttr(JsonObjectBuilder builder, CRelationship rel) {
         String object = rel.getObject().toString();
         JsonUtilities.addValue(builder, "value", object);
 
@@ -177,23 +179,28 @@ public class Ngsi2C3IM {
     }
 
     public static void main(String[] args) {
-        C3IMEntity ent = new C3IMEntityImpl("urn:c3im:Test:abcde", "Test");
+        CEntity ent = new EntityImpl("urn:c3im:Test:abcde", "Test");
 
-        C3IMPropertySt propSt = new C3IMPropertyStImpl("testProperty", 45);
-        C3IMRelationshipSt relSt = new C3IMRelationshipStImpl("testRel", "urn:c3im:Test2:abcdef");
+        CProperty propSt = new CPropertyImpl("testProperty", 45);
+        propSt.setTimestamp("2017-10-10T12:00:00");
+
+        CRelationship relSt = new CRelationshipImpl("testRel", "urn:c3im:Test2:abcdef");
         ent.addRelationship(relSt);
         ent.addProperty(propSt);
 
-        C3IMRelationshipSt relst2 = new C3IMRelationshipStImpl("relOfProp",
+        CRelationship relst2 = new CRelationshipImpl("relOfProp",
                 "urn:c3im:Test3:xxxxx");
 
-        propSt.addProperty(new C3IMPropertyStImpl("timestamp",
+        propSt.addProperty(new CPropertyImpl("timestamp",
                 "2017-10-22T12:00:00","DateTime"));
         propSt.addRelationship(relst2);
 
-        relSt.addProperty(new C3IMPropertyStImpl("propOfRel", "TestValue"));
+        relSt.addProperty(new CPropertyImpl("propOfRel", "TestValue"));
+        relSt.addProperty(new CPropertyImpl("timestamp",
+                "2017-10-22T12:00:00","DateTime"));
+        propSt.addRelationship(relst2);
 
-        JsonObject obj = Ngsi2C3IM.toNgsi(ent);
+        JsonObject obj = Ngsi2NGSILD.toNgsi(ent);
 
         JsonWriter writer = Json.createWriterFactory(
                 Collections.singletonMap(

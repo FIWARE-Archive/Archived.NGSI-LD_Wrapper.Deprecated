@@ -1,10 +1,10 @@
 package org.fiware.ngsi_ld.rest;
 
-import org.fiware.ngsi_ld.C3IMEntity;
-import org.fiware.ngsi_ld.C3IMPropertySt;
-import org.fiware.ngsi_ld.impl.C3IMEntityImpl;
-import org.fiware.ngsi_ld.comp.C3IMEntityAdapter;
-import org.fiware.ngsi_ld.impl.C3IMPropertyStImpl;
+import org.fiware.ngsi_ld.CEntity;
+import org.fiware.ngsi_ld.CProperty;
+import org.fiware.ngsi_ld.impl.EntityImpl;
+import org.fiware.ngsi_ld.comp.EntityAdapter;
+import org.fiware.ngsi_ld.impl.CPropertyImpl;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -31,11 +31,11 @@ public class MyResourceJson2 {
     public String getIt() {
         JsonbConfig config = new JsonbConfig();
 
-        config.withAdapters(new C3IMEntityAdapter());
+        config.withAdapters(new EntityAdapter());
         Jsonb jsonb = JsonbBuilder.create(config);
 
-        C3IMEntity entity = new C3IMEntityImpl("urn:c3im:Vehicle:4567", "Vehicle");
-        C3IMPropertySt propertySt = new C3IMPropertyStImpl("speed", 40);
+        CEntity entity = new EntityImpl("urn:c3im:Vehicle:4567", "Vehicle");
+        CProperty propertySt = new CPropertyImpl("speed", 40);
 
         entity.addProperty(propertySt);
 

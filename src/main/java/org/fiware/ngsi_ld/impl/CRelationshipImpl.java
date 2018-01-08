@@ -1,6 +1,6 @@
 package org.fiware.ngsi_ld.impl;
 
-import org.fiware.ngsi_ld.C3IMRelationshipSt;
+import org.fiware.ngsi_ld.CRelationship;
 
 import java.net.URI;
 
@@ -14,16 +14,16 @@ import java.net.URI;
  *
  *
  */
-public class C3IMRelationshipStImpl extends C3IMObjectImpl implements C3IMRelationshipSt {
+public class CRelationshipImpl extends CObjectImpl implements CRelationship {
     private String relationshipId;
     private String object;
 
-    public C3IMRelationshipStImpl(String relationshipId, URI object) {
+    public CRelationshipImpl(String relationshipId, URI object) {
         this.relationshipId = relationshipId;
         this.object = object.toString();
     }
 
-    public C3IMRelationshipStImpl(String relationshipId, String object) {
+    public CRelationshipImpl(String relationshipId, String object) {
         this.relationshipId = relationshipId;
         this.object = object;
     }
