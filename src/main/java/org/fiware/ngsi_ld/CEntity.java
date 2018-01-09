@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**
  *
- *   A C3IM Entity
+ *   NGSI-LD Entity
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *

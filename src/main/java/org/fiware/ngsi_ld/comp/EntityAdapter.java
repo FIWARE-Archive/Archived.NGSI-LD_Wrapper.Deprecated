@@ -3,9 +3,8 @@ package org.fiware.ngsi_ld.comp;
 import org.fiware.UrnValidator;
 import org.fiware.ngsi_ld.CProperty;
 import org.fiware.ngsi_ld.CRelationship;
-import org.fiware.ngsi_ld.impl.EntityImpl;
-import org.fiware.ngsi_ld.impl.CPropertyImpl;
-import org.fiware.ngsi_ld.impl.CRelationshipImpl;
+import org.fiware.ngsi_ld.GeoProperty;
+import org.fiware.ngsi_ld.impl.*;
 
 import javax.json.*;
 import javax.json.bind.adapter.JsonbAdapter;
@@ -16,7 +15,7 @@ import java.util.Set;
 
 /**
  *
- *   C3IM Entity adapter to JSON
+ *   NGSI-LD Entity adapter to JSON
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *
@@ -31,7 +30,7 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
 
         String id = e.getId();
         if (!UrnValidator.isValid(id)) {
-            id = "urn" + ":" + "c3im" + ":" + e.getType() + ":" + e.getId();
+            id = "urn" + ":" + "ngsi-ld" + ":" + e.getType() + ":" + e.getId();
         }
 
         builder.add("id", id);
@@ -44,7 +43,7 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         for (String key:keys) {
             CProperty prop = props.get(key);
 
-            adaptPropertyStToJson(builder,key, prop);
+            adaptPropertyToJson(builder,key, prop);
         }
 
         // Iterate over the relationships of the C3IM entity
@@ -54,7 +53,7 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         for (String relKey:relKeys) {
             CRelationship rel = rels.get(relKey);
 
-            adaptRelationshipStToJson(builder,relKey, rel);
+            adaptRelationshipToJson(builder,relKey, rel);
         }
 
         return builder.build();
@@ -77,11 +76,14 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
                 else {
                     JsonObject obj = val.asJsonObject();
                     String objType = obj.getString("type");
-                    if (objType.equals("PropertyStatement")) {
-                        e.addProperty(fromJsonToPropertySt(key, obj));
+                    if (objType.equals(Vocabulary.C_PROP)) {
+                        e.addProperty(fromJsonToProperty(key, obj, null));
                     }
-                    else if (objType.equals("RelationshipStatement")) {
-                        e.addRelationship(fromJsonToRelSt(key, obj));
+                    else if (objType.equals(Vocabulary.C_REL)) {
+                        e.addRelationship(fromJsonToRel(key, obj));
+                    }
+                    else if (objType.equals(Vocabulary.GEO_PROP)) {
+                        e.addProperty(fromJsonToProperty(key,obj,Vocabulary.GEO_PROP));
                     }
                     else {
                         throw new Exception("400");
@@ -93,25 +95,39 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         return e;
     }
 
-    private CProperty fromJsonToPropertySt(String propName, JsonObject obj) throws Exception {
-        CProperty out = new CPropertyImpl(propName, obj.get("value"));
-        String timestamp = obj.getString("timestamp", "");
+    private CProperty fromJsonToProperty(String propName, JsonObject obj, String propType) throws Exception {
+        String pType = propType;
+
+        if (pType == null) {
+            pType = Vocabulary.C_PROP;
+        }
+
+        CProperty out;
+
+        if (pType == Vocabulary.GEO_PROP) {
+            out = new GeoPropertyImpl(propName, obj.get(Vocabulary.VALUE));
+        }
+        else {
+            out = new CPropertyImpl(propName, obj.get(Vocabulary.VALUE));
+        }
+
+        String timestamp = obj.getString(Vocabulary.TIMESTAMP, "");
         if (timestamp.length() > 0) {
             ((CPropertyImpl)out).setTimestamp(timestamp);
         }
 
         for(String key: obj.keySet()) {
-            if (!key.equals("type") && !key.equals("value") && !key.equals("timestamp")) {
+            if (!key.equals(Vocabulary.TYPE) && !key.equals(Vocabulary.VALUE) && !key.equals(Vocabulary.TIMESTAMP)) {
                 String valueType = obj.get(key).getValueType().name();
                 if (valueType.equals("OBJECT")) {
                     JsonObject keyObject = obj.get(key).asJsonObject();
-                    String keyType = keyObject.getString("type");
+                    String keyType = keyObject.getString(Vocabulary.TYPE);
                     if (keyType != null) {
-                        if (keyType.equals("PropertyStatement")) {
-                            out.addProperty(fromJsonToPropertySt(key, keyObject));
+                        if (keyType.equals(Vocabulary.C_PROP)) {
+                            out.addProperty(fromJsonToProperty(key, keyObject, Vocabulary.C_PROP));
                         }
-                        else if (keyType.equals("RelationshipStatement")) {
-                            out.addRelationship(fromJsonToRelSt(key, keyObject));
+                        else if (keyType.equals(Vocabulary.C_REL)) {
+                            out.addRelationship(fromJsonToRel(key, keyObject));
                         }
                         else {
                             CProperty pst = new CPropertyImpl(key, keyObject);
@@ -129,21 +145,21 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         return out;
     }
 
-    private CRelationship fromJsonToRelSt(String relName, JsonObject obj) throws Exception {
-        CRelationship out = new CRelationshipImpl(relName, obj.getString("object"));
+    private CRelationship fromJsonToRel(String relName, JsonObject obj) throws Exception {
+        CRelationship out = new CRelationshipImpl(relName, obj.getString(Vocabulary.OBJECT));
 
         for(String key: obj.keySet()) {
-            if (!key.equals("type") && !key.equals("object")) {
+            if (!key.equals(Vocabulary.TYPE) && !key.equals(Vocabulary.OBJECT)) {
                 String valueType = obj.get(key).getValueType().name();
                 if (valueType.equals("OBJECT")) {
                     JsonObject keyObject = obj.get(key).asJsonObject();
-                    String keyType = keyObject.getString("type");
+                    String keyType = keyObject.getString(Vocabulary.TYPE);
                     if (keyType != null) {
-                        if (keyType.equals("PropertyStatement")) {
-                            out.addProperty(fromJsonToPropertySt(key, keyObject));
+                        if (keyType.equals(Vocabulary.C_PROP)) {
+                            out.addProperty(fromJsonToProperty(key, keyObject, null));
                         }
-                        else if (keyType.equals("RelationshipStatement")) {
-                            out.addRelationship(fromJsonToRelSt(key, keyObject));
+                        else if (keyType.equals(Vocabulary.C_REL)) {
+                            out.addRelationship(fromJsonToRel(key, keyObject));
                         }
                     }
                     else {
@@ -179,7 +195,7 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         writer.writeObject(out);
     }
 
-    private void adaptPropertyStToJson(JsonObjectBuilder builder, String key, CProperty pst) {
+    private void adaptPropertyToJson(JsonObjectBuilder builder, String key, CProperty pst) {
         Map<String,CProperty> propsOfProp = pst.getProperties();
         Map<String,CRelationship> relsOfProp = pst.getRelationships();
 
@@ -189,23 +205,28 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         }
         else { */
             JsonObjectBuilder propBuilder = Json.createObjectBuilder();
-            propBuilder.add("type", "PropertyStatement");
+            if (pst instanceof GeoProperty) {
+                propBuilder.add(Vocabulary.TYPE, Vocabulary.GEO_PROP);
+            }
+            else {
+                propBuilder.add(Vocabulary.TYPE, Vocabulary.C_PROP);
+            }
             // TODO: This will not always be a JsonValue
-            propBuilder.add("value", (JsonValue)pst.getValue());
+            propBuilder.add(Vocabulary.VALUE, (JsonValue)pst.getValue());
             if (pst.getTimestamp() != null) {
-                propBuilder.add("timestamp", pst.getTimestamp());
+                propBuilder.add(Vocabulary.TIMESTAMP, pst.getTimestamp());
             }
 
             Set<String> keys = propsOfProp.keySet();
             for (String keyProp : keys) {
                 CProperty newSt = propsOfProp.get(keyProp);
-                adaptPropertyStToJson(propBuilder, keyProp, newSt);
+                adaptPropertyToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());
         /*} */
     }
 
-    private void adaptRelationshipStToJson(JsonObjectBuilder builder, String key, CRelationship relst) {
+    private void adaptRelationshipToJson(JsonObjectBuilder builder, String key, CRelationship relst) {
         Map<String,CRelationship> relsOfRels = relst.getRelationships();
         Map<String,CProperty> propsOfRels = relst.getProperties();
 /*
@@ -214,13 +235,13 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         }
         else {*/
             JsonObjectBuilder propBuilder = Json.createObjectBuilder();
-            propBuilder.add("type", "RelationshipStatement");
+            propBuilder.add(Vocabulary.TYPE, Vocabulary.C_REL);
             // TODO: This will not always be a JsonValue
-            propBuilder.add("object", relst.getObject().toString());
+            propBuilder.add(Vocabulary.OBJECT, relst.getObject().toString());
             Set<String> keys = propsOfRels.keySet();
             for (String keyProp : keys) {
                 CProperty newSt = propsOfRels.get(keyProp);
-                adaptPropertyStToJson(propBuilder, keyProp, newSt);
+                adaptPropertyToJson(propBuilder, keyProp, newSt);
             }
             builder.add(key, propBuilder.build());
        /* } */

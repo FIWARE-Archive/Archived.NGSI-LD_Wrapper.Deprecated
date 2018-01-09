@@ -4,7 +4,7 @@ import org.fiware.ngsi_ld.CProperty;
 
 /**
  *
- *   A C3IM Property Statement implementation
+ *   A CProperty implementation
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *

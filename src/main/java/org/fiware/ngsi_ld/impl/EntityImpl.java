@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  *
- *   A C3IM Entity Implementation
+ *   NGSI-LD Entity Implementation
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *

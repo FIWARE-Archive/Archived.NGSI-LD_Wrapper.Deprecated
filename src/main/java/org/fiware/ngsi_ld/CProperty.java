@@ -2,7 +2,7 @@ package org.fiware.ngsi_ld;
 
 /**
  *
- *   A C3IM Property Statement
+ *   CProperty
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *

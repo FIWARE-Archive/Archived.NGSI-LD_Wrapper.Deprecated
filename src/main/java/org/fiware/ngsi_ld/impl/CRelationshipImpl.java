@@ -6,7 +6,7 @@ import java.net.URI;
 
 /**
  *
- *   A C3IM Relationship statement implementation
+ *   CRelationship implementation
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *

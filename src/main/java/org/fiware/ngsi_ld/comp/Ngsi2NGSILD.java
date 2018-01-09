@@ -1,13 +1,8 @@
 package org.fiware.ngsi_ld.comp;
 
 import org.fiware.JsonUtilities;
-import org.fiware.ngsi_ld.CEntity;
-import org.fiware.ngsi_ld.CObject;
-import org.fiware.ngsi_ld.CProperty;
-import org.fiware.ngsi_ld.CRelationship;
-import org.fiware.ngsi_ld.impl.EntityImpl;
-import org.fiware.ngsi_ld.impl.CPropertyImpl;
-import org.fiware.ngsi_ld.impl.CRelationshipImpl;
+import org.fiware.ngsi_ld.*;
+import org.fiware.ngsi_ld.impl.*;
 
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
@@ -16,7 +11,7 @@ import java.util.Map;
 
 /**
  *
- *   Transforms NGSI data to C3IM
+ *   Transforms NGSI data to NGSI-LD
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *
@@ -27,12 +22,12 @@ import java.util.Map;
 public class Ngsi2NGSILD {
     /**
      *
-     *  Converts a Json normalized representation of NGSIv2 to a C3IM Entity
+     *  Converts a Json normalized representation of NGSIv2 to a NGSI-LD Entity
      *
      * @param obj
      * @return
      */
-    public static CEntity toC3IM(JsonObject obj) {
+    public static CEntity toNGSILD(JsonObject obj) {
         String id = obj.getString("id");
         String type = obj.getString("type");
 
@@ -51,8 +46,14 @@ public class Ngsi2NGSILD {
 
                 CObject c3imObj;
                 if (attrType != null && !attrType.equals("Reference")) {
-                    c3imObj = new CPropertyImpl(key, value);
-                    ent.addProperty((CProperty)c3imObj);
+                    if (attrType.equals("geo:json")) {
+                        c3imObj = new GeoPropertyImpl(key, value);
+                        ent.addProperty((CProperty)c3imObj);
+                    }
+                    else {
+                        c3imObj = new CPropertyImpl(key, value);
+                        ent.addProperty((CProperty)c3imObj);
+                    }
                 }
                 else {
                     String valStr = ngsiStructure.getString("value");
@@ -81,7 +82,7 @@ public class Ngsi2NGSILD {
 
     /**
      *
-     *   Converts a C3IM Entity to a normalized NGSIv2 JSON representation
+     *   Converts a NGSI-LD Entity to a normalized NGSIv2 JSON representation
      *
      *
      * @param ent
@@ -102,9 +103,9 @@ public class Ngsi2NGSILD {
 
             if (prop.getTimestamp() != null) {
                 JsonObjectBuilder timestampValueBuilder = Json.createObjectBuilder();
-                timestampValueBuilder.add("type", "DateTime");
-                timestampValueBuilder.add("value", prop.getTimestamp());
-                metadataBuilder.add("timestamp", timestampValueBuilder.build());
+                timestampValueBuilder.add(Vocabulary.TIMESTAMP, "DateTime");
+                timestampValueBuilder.add(Vocabulary.VALUE, prop.getTimestamp());
+                metadataBuilder.add(Vocabulary.TIMESTAMP, timestampValueBuilder.build());
             }
 
             Map<String, CProperty> propsOfProps = prop.getProperties();
@@ -162,7 +163,7 @@ public class Ngsi2NGSILD {
         }
 
         // TODO: Do this with the JSON-LD context
-        if (prop.getPropertyId().equals("location")) {
+        if (prop instanceof GeoProperty) {
             builder.add("type", "geo:json");
         }
 

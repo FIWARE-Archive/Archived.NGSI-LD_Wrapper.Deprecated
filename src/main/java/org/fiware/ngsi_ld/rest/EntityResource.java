@@ -73,7 +73,7 @@ public class EntityResource {
                 return Response.status(200).entity(array.getJsonObject(0)).build();
             }
 
-            CEntity c3imEntity = Ngsi2NGSILD.toC3IM(array.getJsonObject(0));
+            CEntity c3imEntity = Ngsi2NGSILD.toNGSILD(array.getJsonObject(0));
             return addJsonLinkHeader(Response.ok()).entity(jsonb.toJson(c3imEntity)).build();
         }
     }
@@ -139,7 +139,7 @@ public class EntityResource {
 
             for(int j = 0; j < array.size(); j++) {
                 JsonObject obj = array.getJsonObject(j);
-                CEntity c3imEntity = Ngsi2NGSILD.toC3IM(obj);
+                CEntity c3imEntity = Ngsi2NGSILD.toNGSILD(obj);
                 resultEntities.add(c3imEntity);
 
                 stb.append(jsonb.toJson(c3imEntity)).append(",");

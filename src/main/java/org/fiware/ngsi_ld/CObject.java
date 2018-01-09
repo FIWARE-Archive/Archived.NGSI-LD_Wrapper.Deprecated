@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  *
- *   A C3IM Object
+ *   CObject
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *

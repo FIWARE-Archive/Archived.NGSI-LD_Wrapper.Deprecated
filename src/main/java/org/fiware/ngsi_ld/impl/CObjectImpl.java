@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  *
- *   A C3IM Object implementation
+ *   NGSI-LD Object implementation
  *
  *   Copyright (c) 2017 FIWARE Foundation e.V.
  *
