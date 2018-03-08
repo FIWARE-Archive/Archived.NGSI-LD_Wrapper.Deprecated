@@ -10,8 +10,10 @@ import org.fiware.Configuration;
 import org.fiware.ngsi_ld.comp.Ngsi2NGSILD;
 import org.fiware.ngsi_ld.impl.EntityImpl;
 
+import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonWriter;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
@@ -175,6 +177,9 @@ public class EntityResource {
                return Response.status(400).build();
             }
         }
+
+        JsonWriter writer = Json.createWriter(System.out);
+        writer.writeObject(obj);
 
         NgsiClient client = new NgsiClient(Configuration.ORION_BROKER);
         Response res = client.createEntity(obj);

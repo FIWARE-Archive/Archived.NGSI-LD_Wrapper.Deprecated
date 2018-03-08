@@ -30,7 +30,16 @@ public interface CObject {
 
     public Map<String,CProperty> getProperties();
 
+    // observedAt
     public void setTimestamp(String timestamp);
 
+    public void setCreatedAt(String timestamp);
+
+    public void setModifiedAt(String timestamp);
+
     public String getTimestamp();
+
+    public String getCreatedAt();
+
+    public String getModifiedAt();
 }

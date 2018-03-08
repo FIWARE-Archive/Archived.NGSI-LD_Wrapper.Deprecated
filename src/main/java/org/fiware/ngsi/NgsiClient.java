@@ -1,8 +1,6 @@
 package org.fiware.ngsi;
 
-import org.glassfish.jersey.client.ClientResponse;
 
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.ws.rs.client.*;
@@ -10,7 +8,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 
 public class NgsiClient {
@@ -50,6 +47,9 @@ public class NgsiClient {
 
         if (q.attrs.length() > 0) {
             target = target.queryParam("attrs", q.attrs);
+        }
+        else {
+            target = target.queryParam("attrs", "*,dateCreated,dateModified");
         }
 
         if (options != null && options.size() > 0) {

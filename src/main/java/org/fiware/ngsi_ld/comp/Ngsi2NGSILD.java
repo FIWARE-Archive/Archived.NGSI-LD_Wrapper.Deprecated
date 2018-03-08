@@ -7,6 +7,7 @@ import org.fiware.ngsi_ld.impl.*;
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,6 +21,13 @@ import java.util.Map;
  *
  */
 public class Ngsi2NGSILD {
+    private static Map<String,String> TRANSLATIONS = new HashMap();
+
+    static {
+        TRANSLATIONS.put("dateCreated", Vocabulary.CREATED_AT);
+        TRANSLATIONS.put("dateModified", Vocabulary.MODIFIED_AT);
+    }
+
     /**
      *
      *  Converts a Json normalized representation of NGSIv2 to a NGSI-LD Entity
@@ -34,15 +42,25 @@ public class Ngsi2NGSILD {
         CEntity ent = new EntityImpl(id, type);
 
         for (String key:obj.keySet()) {
-            if (!key.equals("id") && !key.equals("type")) {
+            if (!key.equals(Vocabulary.ID) && !key.equals(Vocabulary.TYPE)) {
                 JsonValue value;
                 JsonObject ngsiStructure = null;
                 String attrType = null;
                 String timestamp = null;
 
                 ngsiStructure = obj.getJsonObject(key);
-                value = ngsiStructure.get("value");
-                attrType = ngsiStructure.getString("type");
+                value = ngsiStructure.get(Vocabulary.VALUE);
+                attrType = ngsiStructure.getString(Vocabulary.TYPE);
+
+                if(key.equals("dateCreated")) {
+                    ent.setCreatedAt(ngsiStructure.getString("value"));
+                    continue;
+                }
+
+                if(key.equals("dateModified")) {
+                    ent.setModifiedAt(ngsiStructure.getString("value"));
+                    continue;
+                }
 
                 CObject c3imObj;
                 if (attrType != null && !attrType.equals("Reference")) {
@@ -66,7 +84,7 @@ public class Ngsi2NGSILD {
                 if (metadata != null) {
                     for (String mKey : metadata.keySet()) {
                         JsonObject metadataStructure = metadata.getJsonObject(mKey);
-                        if (mKey.equals("timestamp")) {
+                        if (mKey.equals("timestamp") || mKey.equals(Vocabulary.OBSERVED_AT)) {
                             c3imObj.setTimestamp(metadataStructure.getString("value"));
                             continue;
                         }
@@ -103,9 +121,9 @@ public class Ngsi2NGSILD {
 
             if (prop.getTimestamp() != null) {
                 JsonObjectBuilder timestampValueBuilder = Json.createObjectBuilder();
-                timestampValueBuilder.add(Vocabulary.TIMESTAMP, "DateTime");
+                timestampValueBuilder.add(Vocabulary.TYPE, "DateTime");
                 timestampValueBuilder.add(Vocabulary.VALUE, prop.getTimestamp());
-                metadataBuilder.add(Vocabulary.TIMESTAMP, timestampValueBuilder.build());
+                metadataBuilder.add("timestamp", timestampValueBuilder.build());
             }
 
             Map<String, CProperty> propsOfProps = prop.getProperties();
@@ -179,25 +197,30 @@ public class Ngsi2NGSILD {
         return builder.build();
     }
 
+
+    private static String translateAttrName(String name) {
+        return TRANSLATIONS.get(name) != null ? TRANSLATIONS.get(name) : name;
+    }
+
     public static void main(String[] args) {
-        CEntity ent = new EntityImpl("urn:c3im:Test:abcde", "Test");
+        CEntity ent = new EntityImpl("urn:ngsi-ld:Test:abcde", "Test");
 
         CProperty propSt = new CPropertyImpl("testProperty", 45);
         propSt.setTimestamp("2017-10-10T12:00:00");
 
-        CRelationship relSt = new CRelationshipImpl("testRel", "urn:c3im:Test2:abcdef");
+        CRelationship relSt = new CRelationshipImpl("testRel", "urn:ngsi-ld:Test2:abcdef");
         ent.addRelationship(relSt);
         ent.addProperty(propSt);
 
         CRelationship relst2 = new CRelationshipImpl("relOfProp",
-                "urn:c3im:Test3:xxxxx");
+                "urn:ngsi-ld:Test3:xxxxx");
 
-        propSt.addProperty(new CPropertyImpl("timestamp",
+        propSt.addProperty(new CPropertyImpl("observedAt",
                 "2017-10-22T12:00:00","DateTime"));
         propSt.addRelationship(relst2);
 
         relSt.addProperty(new CPropertyImpl("propOfRel", "TestValue"));
-        relSt.addProperty(new CPropertyImpl("timestamp",
+        relSt.addProperty(new CPropertyImpl("observedAt",
                 "2017-10-22T12:00:00","DateTime"));
         propSt.addRelationship(relst2);
 

@@ -36,6 +36,14 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
         builder.add("id", id);
         builder.add("type", e.getType());
 
+        if (e.getModifiedAt() != null) {
+            builder.add(Vocabulary.MODIFIED_AT, e.getModifiedAt());
+        }
+
+        if (e.getCreatedAt() != null) {
+            builder.add(Vocabulary.CREATED_AT, e.getCreatedAt());
+        }
+
         // Iterate over the properties of the C3IM entity
         Map<String,CProperty> props = e.getProperties();
 
@@ -111,13 +119,13 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
             out = new CPropertyImpl(propName, obj.get(Vocabulary.VALUE));
         }
 
-        String timestamp = obj.getString(Vocabulary.TIMESTAMP, "");
+        String timestamp = obj.getString(Vocabulary.OBSERVED_AT, "");
         if (timestamp.length() > 0) {
             ((CPropertyImpl)out).setTimestamp(timestamp);
         }
 
         for(String key: obj.keySet()) {
-            if (!key.equals(Vocabulary.TYPE) && !key.equals(Vocabulary.VALUE) && !key.equals(Vocabulary.TIMESTAMP)) {
+            if (!key.equals(Vocabulary.TYPE) && !key.equals(Vocabulary.VALUE) && !key.equals(Vocabulary.OBSERVED_AT)) {
                 String valueType = obj.get(key).getValueType().name();
                 if (valueType.equals("OBJECT")) {
                     JsonObject keyObject = obj.get(key).asJsonObject();
@@ -214,7 +222,7 @@ public class EntityAdapter implements JsonbAdapter<EntityImpl, JsonObject> {
             // TODO: This will not always be a JsonValue
             propBuilder.add(Vocabulary.VALUE, (JsonValue)pst.getValue());
             if (pst.getTimestamp() != null) {
-                propBuilder.add(Vocabulary.TIMESTAMP, pst.getTimestamp());
+                propBuilder.add(Vocabulary.OBSERVED_AT, pst.getTimestamp());
             }
 
             Set<String> keys = propsOfProp.keySet();

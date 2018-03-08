@@ -20,7 +20,10 @@ import java.util.Map;
  *
  */
 public abstract class CObjectImpl implements CObject {
+    // observedAt
     private String timestamp;
+    private String createdAt;
+    private String modifiedAt;
 
     // Properties map
     private Map<String, CProperty> properties = new HashMap<String, CProperty>();
@@ -94,5 +97,25 @@ public abstract class CObjectImpl implements CObject {
     @Override
     public String getTimestamp() {
         return timestamp;
+    }
+
+    @Override
+    public void setCreatedAt(String timestamp) {
+        this.createdAt = timestamp;
+    }
+
+    @Override
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public void setModifiedAt(String timestamp) {
+        this.modifiedAt = timestamp;
+    }
+
+    @Override
+    public String getModifiedAt() {
+        return modifiedAt;
     }
 }

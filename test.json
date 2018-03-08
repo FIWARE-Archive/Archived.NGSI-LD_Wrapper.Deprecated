@@ -1,23 +1,35 @@
 {
-  "id": "urn:c3im:Room:ISDI-Impact-Room-2",
+  "id": "urn:ngsi-ld:Room:ISDI-Impact-Room-2",
   "type": "Room",
   "temperature": {
-    "type": "PropertyStatement",
+    "type": "Property",
     "value": 30,
-    "timestamp": "2017-10-31T12:00:00"
+    "observedAt": "2017-10-31T12:00:00"
   },
-  "dateLastCleaning": "2017-09-20T13:00:00.00Z",
+  "dateLastCleaning": {
+    "type": "Property",
+    "value": "2017-09-20T13:00:00.00Z"
+  },
   "location": {
-    "type": "Point",
-    "coordinates": [
-      -2,
-      40
-    ]
+    "type": "GeoProperty",
+    "value": {
+      "type": "Point",
+      "coordinates": [
+        -2,
+        40
+      ]
+    }
   },
   "nearbyRoom": {
-    "type": "RelationshipStatement",
-    "object": "urn:c3im:Room:ISDI-Impact-Room-1",
-    "distance": 23
+    "type": "Relationship",
+    "object": "urn:ngsi-ld:Room:ISDI-Impact-Room-1",
+    "distance": {
+      "type": "Property",
+      "value": 2.5
+    }
   },
-  "owner": "urn:c3im:Person:a45678"
+  "owner": {
+    "type": "Relationship",
+    "object": "urn:ngsi-ld:Person:a45678"
+  }
 }
