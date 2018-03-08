@@ -1,4 +1,4 @@
-# NGSI-LD Wrapper for NGSIv2
+# NGSI-LD Wrapper
 
 [![MIT license][license-image]][license-url]
 
