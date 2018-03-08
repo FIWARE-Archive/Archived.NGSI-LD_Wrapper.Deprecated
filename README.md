@@ -15,6 +15,7 @@ Properties and Relationships can be the subject of other Properties or Relations
 See also:
 
 https://github.com/fiware/dataModels
+
 https://github.com/fiware/context.Orion
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
