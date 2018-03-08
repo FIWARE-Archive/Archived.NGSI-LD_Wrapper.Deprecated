@@ -3,6 +3,16 @@ package org.fiware;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
+/**
+ *
+ *   Json utilities
+ *
+ *   Copyright (c) 2017-18 FIWARE Foundation e.V.
+ *
+ *   LICENSE: MIT
+ *
+ *
+ */
 public class JsonUtilities {
     public static void addValue(JsonObjectBuilder obj, String key, Object value) {
         if (value instanceof Integer) {
