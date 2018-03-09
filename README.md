@@ -8,6 +8,8 @@ The [OMA NGSI-9/10 information model](https://forge.fiware.org/plugins/mediawiki
 
 This wrapper works on top of the [FIWARE Context Broker](https://github.com/fiware/context.Orion) and basically adapts between NGSIv2 (JSON) representations and the **NGSI-LD** (JSON-LD) representations.
 
+An example illustrating the usage of NGSI-LD can be found [here](doc/example.md). 
+
 ## See also:
 
 https://github.com/fiware/dataModels
