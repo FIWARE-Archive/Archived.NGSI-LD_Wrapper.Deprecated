@@ -128,23 +128,29 @@ public class EntityResource {
             return Response.status(result.status).build();
         }
         else {
+            boolean keyValues = false;
+
             if (options.indexOf("keyValues") != -1) {
-                return Response.status(200).entity(result.result).build();
+                keyValues = true;
             }
 
             JsonArray array = result.result.asJsonArray();
-
-            List<CEntity> resultEntities = new ArrayList<>();
 
             // Workaround to return a list
             StringBuffer stb = new StringBuffer("[");
 
             for(int j = 0; j < array.size(); j++) {
                 JsonObject obj = array.getJsonObject(j);
-                CEntity c3imEntity = Ngsi2NGSILD.toNGSILD(obj);
-                resultEntities.add(c3imEntity);
 
-                stb.append(jsonb.toJson(c3imEntity)).append(",");
+                if (!keyValues) {
+                    CEntity c3imEntity = Ngsi2NGSILD.toNGSILD(obj);
+                    stb.append(jsonb.toJson(c3imEntity));
+                }
+                else {
+                    stb.append(Ngsi2NGSILD.toNGSILDKeyValues(obj));
+                }
+
+                stb.append(",");
             }
 
             if (stb.length() > 1) {

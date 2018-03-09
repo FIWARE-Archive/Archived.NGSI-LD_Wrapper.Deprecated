@@ -17,11 +17,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Ngsi2NGSILD.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EntityResource.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="148">
+              <caret line="142" column="56" lean-forward="true" selection-start-line="142" selection-start-column="56" selection-end-line="142" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ngsi2NGSILD.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2NGSILD.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="129" column="56" lean-forward="true" selection-start-line="129" selection-start-column="56" selection-end-line="129" selection-end-column="56" />
+            <state relative-caret-position="75">
+              <caret line="243" column="20" lean-forward="true" selection-start-line="243" selection-start-column="20" selection-end-line="243" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NgsiTerms.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiTerms.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -31,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/wrapper/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="242">
-              <caret line="23" column="44" lean-forward="true" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+              <caret line="23" column="44" lean-forward="false" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -41,7 +61,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/Vocabulary.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -51,17 +71,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/CObject.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="748">
-              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CRelationshipImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/CRelationshipImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="16" column="7" lean-forward="false" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+              <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -70,8 +80,8 @@
       <file leaf-file-name="NgsiClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="54" column="52" lean-forward="true" selection-start-line="54" selection-start-column="52" selection-end-line="54" selection-end-column="52" />
+            <state relative-caret-position="157">
+              <caret line="52" column="9" lean-forward="true" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -79,14 +89,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EntityAdapter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EntityAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/EntityAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+            <state relative-caret-position="3961">
+              <caret line="233" column="14" lean-forward="false" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EntityImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/EntityImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -95,27 +115,7 @@
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1309">
-              <caret line="77" column="16" lean-forward="true" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="1" lean-forward="true" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CObjectImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/CObjectImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="115" column="0" lean-forward="true" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+              <caret line="77" column="16" lean-forward="false" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -126,8 +126,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -140,7 +140,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NGSIEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiIEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/EntityResource.java" />
@@ -182,15 +181,16 @@
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/CRelationshipImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/EntityImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/Configuration.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/CObjectImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/CObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java" />
         <option value="$PROJECT_DIR$/test.json" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/wrapper/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/Vocabulary.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2NGSILD.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/EntityAdapter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiTerms.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2NGSILD.java" />
       </list>
     </option>
   </component>
@@ -609,7 +609,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.266" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.266" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -642,7 +642,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2NGSILD.java</url>
-          <line>109</line>
+          <line>141</line>
           <properties />
           <option name="timeStamp" value="43" />
         </line-breakpoint>
@@ -661,16 +661,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/MyResourceJson2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -908,14 +898,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/EntityImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/MyResource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -958,16 +940,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="182" column="0" lean-forward="true" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/CEntity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -995,7 +967,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/CObjectImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
-          <caret line="115" column="0" lean-forward="true" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1003,25 +975,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/CObject.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
-          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="54" column="52" lean-forward="true" selection-start-line="54" selection-start-column="52" selection-end-line="54" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1309">
-          <caret line="77" column="16" lean-forward="true" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1037,7 +991,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/wrapper/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
-          <caret line="23" column="44" lean-forward="true" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+          <caret line="23" column="44" lean-forward="false" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -1045,26 +999,68 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/Vocabulary.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2NGSILD.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="129" column="56" lean-forward="true" selection-start-line="129" selection-start-column="56" selection-end-line="129" selection-end-column="56" />
+        <state relative-caret-position="157">
+          <caret line="52" column="9" lean-forward="true" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/impl/EntityImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/EntityAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+        <state relative-caret-position="3961">
+          <caret line="233" column="14" lean-forward="false" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1309">
+          <caret line="77" column="16" lean-forward="false" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/rest/EntityResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="142" column="56" lean-forward="true" selection-start-line="142" selection-start-column="56" selection-end-line="142" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi/NgsiTerms.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/fiware/ngsi_ld/comp/Ngsi2NGSILD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="243" column="20" lean-forward="true" selection-start-line="243" selection-start-column="20" selection-end-line="243" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -1,6 +1,7 @@
 package org.fiware.ngsi_ld.comp;
 
 import org.fiware.JsonUtilities;
+import org.fiware.ngsi.NgsiTerms;
 import org.fiware.ngsi_ld.*;
 import org.fiware.ngsi_ld.impl.*;
 
@@ -11,26 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- *   Transforms NGSI data to NGSI-LD
- *
- *   Copyright (c) 2017 FIWARE Foundation e.V.
- *
- *   LICENSE: MIT
- *
- *
+ * Transforms NGSI data to NGSI-LD
+ * <p>
+ * Copyright (c) 2017-2018 FIWARE Foundation e.V.
+ * <p>
+ * LICENSE: MIT
  */
 public class Ngsi2NGSILD {
-    private static Map<String,String> TRANSLATIONS = new HashMap();
-
-    static {
-        TRANSLATIONS.put("dateCreated", Vocabulary.CREATED_AT);
-        TRANSLATIONS.put("dateModified", Vocabulary.MODIFIED_AT);
-    }
 
     /**
-     *
-     *  Converts a Json normalized representation of NGSIv2 to a NGSI-LD Entity
+     * Converts a Json normalized representation of NGSIv2 to a NGSI-LD Entity
      *
      * @param obj
      * @return
@@ -41,67 +32,108 @@ public class Ngsi2NGSILD {
 
         CEntity ent = new EntityImpl(id, type);
 
-        for (String key:obj.keySet()) {
-            if (!key.equals(Vocabulary.ID) && !key.equals(Vocabulary.TYPE)) {
-                JsonValue value;
-                JsonObject ngsiStructure = null;
-                String attrType = null;
-                String timestamp = null;
+        if (obj.containsKey(NgsiTerms.DATE_CREATED)) {
+            JsonValue value = obj.get(NgsiTerms.DATE_CREATED);
+            ent.setCreatedAt(value.asJsonObject().getString("value"));
+        }
 
-                ngsiStructure = obj.getJsonObject(key);
-                value = ngsiStructure.get(Vocabulary.VALUE);
-                attrType = ngsiStructure.getString(Vocabulary.TYPE);
+        if (obj.containsKey(NgsiTerms.DATE_MODIFIED)) {
+            JsonValue value = obj.get(NgsiTerms.DATE_MODIFIED);
+            ent.setModifiedAt(value.asJsonObject().getString("value"));
+        }
 
-                if(key.equals("dateCreated")) {
-                    ent.setCreatedAt(ngsiStructure.getString("value"));
-                    continue;
+        for (String key : obj.keySet()) {
+            if (key.equals(Vocabulary.ID) || key.equals(Vocabulary.TYPE)
+                    || key.equals(NgsiTerms.DATE_CREATED) || key.equals(NgsiTerms.DATE_MODIFIED)) {
+                continue;
+            }
+
+            JsonValue value;
+            JsonObject ngsiStructure = null;
+            String attrType = null;
+            String timestamp = null;
+
+
+            ngsiStructure = obj.getJsonObject(key);
+            value = ngsiStructure.get(Vocabulary.VALUE);
+            attrType = ngsiStructure.getString(Vocabulary.TYPE);
+
+            CObject c3imObj;
+            if (attrType != null && !attrType.equals("Reference")) {
+                if (attrType.equals("geo:json")) {
+                    c3imObj = new GeoPropertyImpl(key, value);
+                    ent.addProperty((CProperty) c3imObj);
+                } else {
+                    c3imObj = new CPropertyImpl(key, value);
+                    ent.addProperty((CProperty) c3imObj);
                 }
+            } else {
+                String valStr = ngsiStructure.getString("value");
+                System.out.println(valStr);
+                c3imObj = new CRelationshipImpl(key, valStr);
+                ent.addRelationship((CRelationship) c3imObj);
+            }
 
-                if(key.equals("dateModified")) {
-                    ent.setModifiedAt(ngsiStructure.getString("value"));
-                    continue;
-                }
-
-                CObject c3imObj;
-                if (attrType != null && !attrType.equals("Reference")) {
-                    if (attrType.equals("geo:json")) {
-                        c3imObj = new GeoPropertyImpl(key, value);
-                        ent.addProperty((CProperty)c3imObj);
+            JsonObject metadata = ngsiStructure.getJsonObject("metadata");
+            if (metadata != null) {
+                for (String mKey : metadata.keySet()) {
+                    JsonObject metadataStructure = metadata.getJsonObject(mKey);
+                    if (mKey.equals("timestamp") || mKey.equals(Vocabulary.OBSERVED_AT)) {
+                        c3imObj.setTimestamp(metadataStructure.getString("value"));
+                        continue;
                     }
-                    else {
-                        c3imObj = new CPropertyImpl(key, value);
-                        ent.addProperty((CProperty)c3imObj);
-                    }
-                }
-                else {
-                    String valStr = ngsiStructure.getString("value");
-                    System.out.println(valStr);
-                    c3imObj = new CRelationshipImpl(key, valStr);
-                    ent.addRelationship((CRelationship)c3imObj);
-                }
-
-                JsonObject metadata = ngsiStructure.getJsonObject("metadata");
-                if (metadata != null) {
-                    for (String mKey : metadata.keySet()) {
-                        JsonObject metadataStructure = metadata.getJsonObject(mKey);
-                        if (mKey.equals("timestamp") || mKey.equals(Vocabulary.OBSERVED_AT)) {
-                            c3imObj.setTimestamp(metadataStructure.getString("value"));
-                            continue;
-                        }
-                        CProperty metaPropertySt = new CPropertyImpl(mKey, metadataStructure.get("value"));
-                        c3imObj.addProperty(metaPropertySt);
-                    }
+                    CProperty metaPropertySt = new CPropertyImpl(mKey, metadataStructure.get("value"));
+                    c3imObj.addProperty(metaPropertySt);
                 }
             }
         }
+
 
         return ent;
     }
 
     /**
      *
-     *   Converts a NGSI-LD Entity to a normalized NGSIv2 JSON representation
+     *   Converts a simplified representation in NGSI to NGSI-LD
      *
+     *   This is basically needed to translate dateCreated / dateModified
+     *
+     *
+     * @param obj
+     * @return
+     */
+    public static JsonObject toNGSILDKeyValues(JsonObject obj) {
+        String id = obj.getString("id");
+        String type = obj.getString("type");
+
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+
+        builder.add(Vocabulary.ID, id);
+        builder.add(Vocabulary.TYPE, type);
+
+        if (obj.containsKey(NgsiTerms.DATE_CREATED)) {
+            builder.add(Vocabulary.CREATED_AT, obj.get(NgsiTerms.DATE_CREATED));
+        }
+
+        if (obj.containsKey(NgsiTerms.DATE_MODIFIED)) {
+            builder.add(Vocabulary.MODIFIED_AT, obj.get(NgsiTerms.DATE_MODIFIED));
+        }
+
+        for (String key : obj.keySet()) {
+            if (key.equals(Vocabulary.ID) || key.equals(Vocabulary.TYPE)
+                    || key.equals(NgsiTerms.DATE_CREATED) || key.equals(NgsiTerms.DATE_MODIFIED)) {
+                continue;
+            }
+
+            builder.add(key, obj.get(key));
+        }
+
+        return builder.build();
+    }
+
+
+    /**
+     * Converts a NGSI-LD Entity to a normalized NGSIv2 JSON representation
      *
      * @param ent
      * @return
@@ -114,7 +146,7 @@ public class Ngsi2NGSILD {
 
         Map<String, CProperty> properties = ent.getProperties();
 
-        for(CProperty prop:properties.values()) {
+        for (CProperty prop : properties.values()) {
             JsonObjectBuilder valueBuilder = Json.createObjectBuilder();
             String attrName = prop.getPropertyId();
             JsonObjectBuilder metadataBuilder = Json.createObjectBuilder();
@@ -127,7 +159,7 @@ public class Ngsi2NGSILD {
             }
 
             Map<String, CProperty> propsOfProps = prop.getProperties();
-            addProperties(propsOfProps,metadataBuilder);
+            addProperties(propsOfProps, metadataBuilder);
 
             Map<String, CRelationship> relsOfProps = prop.getRelationships();
             addRelationships(relsOfProps, metadataBuilder);
@@ -138,7 +170,7 @@ public class Ngsi2NGSILD {
 
         Map<String, CRelationship> rels = ent.getRelationships();
 
-        for(CRelationship rel:rels.values()) {
+        for (CRelationship rel : rels.values()) {
             JsonObjectBuilder valueBuilder = Json.createObjectBuilder();
             String attrName = rel.getRelationshipId();
             JsonObjectBuilder metadataBuilder = Json.createObjectBuilder();
@@ -157,7 +189,7 @@ public class Ngsi2NGSILD {
     }
 
     private static void addProperties(Map<String, CProperty> props, JsonObjectBuilder builder) {
-        for(CProperty prop:props.values()) {
+        for (CProperty prop : props.values()) {
             JsonObjectBuilder metadataValueBuilder = Json.createObjectBuilder();
             String metadataName = prop.getPropertyId();
             builder.add(metadataName, toNgsiAttr(metadataValueBuilder, prop));
@@ -165,7 +197,7 @@ public class Ngsi2NGSILD {
     }
 
     private static void addRelationships(Map<String, CRelationship> rels, JsonObjectBuilder builder) {
-        for(CRelationship relOfProp:rels.values()) {
+        for (CRelationship relOfProp : rels.values()) {
             JsonObjectBuilder metadataValueBuilder = Json.createObjectBuilder();
             String metadataName = relOfProp.getRelationshipId();
             builder.add(metadataName, toNgsiAttr(metadataValueBuilder, relOfProp));
@@ -176,7 +208,7 @@ public class Ngsi2NGSILD {
         Object value = prop.getValue();
         JsonUtilities.addValue(builder, "value", value);
 
-        if(prop.getDataType() != null) {
+        if (prop.getDataType() != null) {
             builder.add("type", prop.getDataType());
         }
 
@@ -198,10 +230,13 @@ public class Ngsi2NGSILD {
     }
 
 
-    private static String translateAttrName(String name) {
-        return TRANSLATIONS.get(name) != null ? TRANSLATIONS.get(name) : name;
-    }
-
+    /**
+     *
+     *  TODO: Move this to a unit test
+     *
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         CEntity ent = new EntityImpl("urn:ngsi-ld:Test:abcde", "Test");
 
@@ -216,12 +251,12 @@ public class Ngsi2NGSILD {
                 "urn:ngsi-ld:Test3:xxxxx");
 
         propSt.addProperty(new CPropertyImpl("observedAt",
-                "2017-10-22T12:00:00","DateTime"));
+                "2017-10-22T12:00:00", "DateTime"));
         propSt.addRelationship(relst2);
 
         relSt.addProperty(new CPropertyImpl("propOfRel", "TestValue"));
         relSt.addProperty(new CPropertyImpl("observedAt",
-                "2017-10-22T12:00:00","DateTime"));
+                "2017-10-22T12:00:00", "DateTime"));
         propSt.addRelationship(relst2);
 
         JsonObject obj = Ngsi2NGSILD.toNgsi(ent);

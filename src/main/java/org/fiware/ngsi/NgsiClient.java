@@ -46,7 +46,7 @@ public class NgsiClient {
         }
 
         if (q.attrs.length() > 0) {
-            target = target.queryParam("attrs", q.attrs);
+            target = target.queryParam("attrs", q.attrs + ",dateCreated,dateModified");
         }
         else {
             target = target.queryParam("attrs", "*,dateCreated,dateModified");
