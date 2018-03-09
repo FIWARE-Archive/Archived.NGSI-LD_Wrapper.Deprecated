@@ -15,9 +15,9 @@
    		"object": "urn:ngsi-ld:OffStreetParking:Downtown1",
    		"observedAt": "2017-07-29T12:00:04",
    		"providedBy": {
-        	"type": "Relationship",
-        	"object": "urn:ngsi-ld:Person:Bob"
-     	} 
+        		"type": "Relationship",
+        		"object": "urn:ngsi-ld:Person:Bob"
+     		} 
  	},
 	"@context": [
 		"http://uri.etsi.org/ngsi-ld/coreContext.jsonld",
