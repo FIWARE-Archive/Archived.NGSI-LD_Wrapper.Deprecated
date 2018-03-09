@@ -6,6 +6,8 @@ In the NGSI-LD information model, there are **Entities**, **Properties** and **R
 
 Properties and Relationships can be the subject of other Properties or Relationships. Thus, in the NGSI-LD information model there are no attribute’s metadata but just “properties of properties”. It is not expected to have infinite graphs and in practice only one or two levels of property or relationship “chaining” will happen. Typically, there will be one, equivalent to the NGSI metadata abstraction. 
 
+An example of instantation can be found [here](doc/example.md). 
+
 ![UML Diagram .- NGSI-LD](uml_model.png)
 
 
