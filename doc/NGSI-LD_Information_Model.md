@@ -10,5 +10,5 @@ that there is an instance of an entity of type Vehicle which is parked at a cert
 additional properties of properties (for instance, a timestamp) or properties of relationships
 (parkingDate) are described.
 
-![Instantation example .- NGSI-LD](instantation.png)
+![Instantation example .- NGSI-LD](instantiation.png)
 
