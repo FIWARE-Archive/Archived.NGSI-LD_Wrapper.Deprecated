@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://localhost:8080/ngsi-ld/v1/";
+    public static final String BASE_URI = "http://0.0.0.0:8080/ngsi-ld/v1/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS rest defined in this application.
