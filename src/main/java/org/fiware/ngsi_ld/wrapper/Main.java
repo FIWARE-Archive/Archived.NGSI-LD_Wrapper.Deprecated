@@ -39,6 +39,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
             System.err.println("Usage: ngsi-ld_wrapper <orion_end_point>");
+            System.exit(-1);
         }
 
         Configuration.ORION_BROKER = args[0] + "/v2";
@@ -55,7 +56,7 @@ public class Main {
 
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
+                + "%sapplication.wadl", BASE_URI));
     }
 }
 
