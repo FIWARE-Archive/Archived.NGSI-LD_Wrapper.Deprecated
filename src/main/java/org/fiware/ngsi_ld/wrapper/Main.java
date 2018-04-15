@@ -1,5 +1,6 @@
 package org.fiware.ngsi_ld.wrapper;
 
+import org.fiware.Configuration;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -36,6 +37,12 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        if (args.length < 1) {
+            System.err.println("Usage: ngsi-ld_wrapper <orion_end_point>");
+        }
+
+        Configuration.ORION_BROKER = args[0] + "/v2";
+
         Logger log = Logger.getLogger(Main.class.getName());
 
         log.log(Level.WARNING,"Starting server .....");
