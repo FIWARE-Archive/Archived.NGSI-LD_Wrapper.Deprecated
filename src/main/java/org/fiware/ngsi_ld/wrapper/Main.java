@@ -43,6 +43,8 @@ public class Main {
 
         Configuration.ORION_BROKER = args[0] + "/v2";
 
+        System.out.println("Using Orion: " + Configuration.ORION_BROKER);
+
         Logger log = Logger.getLogger(Main.class.getName());
 
         log.log(Level.WARNING,"Starting server .....");
