@@ -13,7 +13,7 @@ ENV ORION_BROKER http://orion:1026
 
 WORKDIR /app
 
-RUN git clone https://github.com/Joudsi/NGSI-LD_Wrapper.git
+RUN git clone https://github.com/fiware/NGSI-LD_Wrapper.git
 
 WORKDIR /app/NGSI-LD_Wrapper
 
