@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
+    // Here we allow the wrapper to listen to any IP address
     public static final String BASE_URI = "http://0.0.0.0:8080/ngsi-ld/v1/";
 
     /**
