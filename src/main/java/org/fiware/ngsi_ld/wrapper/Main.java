@@ -1,5 +1,6 @@
 package org.fiware.ngsi_ld.wrapper;
 
+import org.fiware.Configuration;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -36,6 +37,15 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        if (args.length < 1) {
+            System.err.println("Usage: ngsi-ld_wrapper <orion_end_point>");
+            System.exit(-1);
+        }
+
+        Configuration.ORION_BROKER = args[0] + "/v2";
+
+        System.out.println("Using Orion: " + Configuration.ORION_BROKER);
+
         Logger log = Logger.getLogger(Main.class.getName());
 
         log.log(Level.WARNING,"Starting server .....");
@@ -46,9 +56,7 @@ public class Main {
 
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        System.in.read();
-        server.stop();
+                + "%sapplication.wadl", BASE_URI));
     }
 }
 
