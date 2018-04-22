@@ -1,6 +1,7 @@
 package org.fiware.ngsi;
 
 
+
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.ws.rs.client.*;
