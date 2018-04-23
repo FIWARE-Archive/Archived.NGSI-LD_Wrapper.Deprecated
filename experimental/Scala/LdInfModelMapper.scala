@@ -104,19 +104,4 @@ object LdInfModelMapper {
   def toNgsi(in:Map[String,Any]) = {
 
   }
-
-  def main(args: Array[String]) = {
-    val testData = Map("id"->"urn:ngsi-ld:Car:myId", "type" -> "myType",
-      "refOther" -> Map("type"->"Relationship","value" -> "anId",
-        "metadata" -> Map("entityType" -> Map("value" -> "Parking"))),
-      "dateCreated" -> Map("value" -> "2018-04-23T12:00:00", "type" -> "DateTime"),
-      "speed" -> Map("value"->100,
-                      "metadata" -> Map("accuracy" -> Map("value" -> 0.89),
-                                        "timestamp" -> Map("value" -> "2018-04-23T12:00:00",
-                                                            "type" -> "DateTime"),
-                                        "providedBy" -> Map("type" -> "Reference", "value" -> "4567"))))
-
-    val x = JsonSerializer.serialize((LdInfModelMapper.fromNgsi(testData)))
-    println(x)
-  }
 }
