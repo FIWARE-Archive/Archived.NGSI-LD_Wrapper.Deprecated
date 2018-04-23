@@ -20,17 +20,10 @@ object LdInfModelMapper {
       case _ => match_key(key,in,out)
     })
 
-    /* did not work for me
-    in.foreach(tuple => tuple match {
-      case ("id",StrValue) => out += tuple
-      case ("type",StrValue) => out += tuple
-      case _ => Nil
-    }) */
-
     out.toMap[String,Any]
   }
 
-  def match_key(key:String,in:Map[String,Any],out:mutable.Map[String,Any]):Any = {
+  private def match_key(key:String,in:Map[String,Any],out:mutable.Map[String,Any]):Any = {
     val auxIn = in(key).asInstanceOf[Map[String,Any]]
 
     key match {
@@ -84,11 +77,11 @@ object LdInfModelMapper {
     }
   }
 
-  def rel_member(attrName:String) = {
+  private def rel_member(attrName:String) = {
     (attrName,"Relationship","object")
   }
 
-  def format_value(nodeType:String,value:Any,entityType:String=null) = {
+  private def format_value(nodeType:String,value:Any,entityType:String=null) = {
     var out:Any = value
 
     if (nodeType == "Relationship") {
@@ -98,7 +91,7 @@ object LdInfModelMapper {
     out
   }
 
-  def format_uri(id:String,entityType:String) = {
+  private def format_uri(id:String,entityType:String) = {
     val eType = if (entityType == null) "Thing" else entityType
 
      id match {
