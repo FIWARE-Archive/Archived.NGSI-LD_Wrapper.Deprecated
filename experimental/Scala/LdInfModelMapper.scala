@@ -8,11 +8,14 @@ object LdInfModelMapper {
   // Reference type to recognize relationships
   val ReferenceAttr = raw"ref(.+)".r
 
+  val UrnPattern = raw"urn:ngsi-ld:(.+):(.+)".r
+
   def fromNgsi(in:Map[String,Any]) = {
     val out = mutable.Map[String,Any]()
 
     in.keys.foreach(key => key match {
-      case "id" => out += (key -> s"urn:ngsi-ld:${in("type")}:${in(key)}")
+      case "id" => out += (key -> format_uri(in(key).asInstanceOf[String],
+        in("type").asInstanceOf[String]))
       case "type" => out += (key -> in(key))
       case _ => match_key(key,in,out)
     })
@@ -61,6 +64,12 @@ object LdInfModelMapper {
               metaKey match {
                 case "timestamp" => propMap += ("observedAt" -> auxMetaProp("value"))
                 case "unitCode" => propMap += ("unitCode" ->  auxMetaProp("value"))
+                case "entityType" => {
+                  val entityId = propMap.getOrElse("object",null).asInstanceOf[String]
+                  if (entityId != null) {
+                    propMap("object") = format_uri(entityId,auxMetaProp("value").asInstanceOf[String])
+                  }
+                }
                 case _ => match_key(metaKey, auxMeta, propMap)
               }
             })
@@ -79,25 +88,35 @@ object LdInfModelMapper {
     (attrName,"Relationship","object")
   }
 
-  def format_value(nodeType:String,value:Any) = {
+  def format_value(nodeType:String,value:Any,entityType:String=null) = {
     var out:Any = value
 
     if (nodeType == "Relationship") {
-      if (!value.asInstanceOf[String].startsWith("urn")) {
-        out = s"urn:ngsi-ld:${value}"
-      }
+      out = format_uri(value.asInstanceOf[String],entityType)
     }
 
     out
   }
+
+  def format_uri(id:String,entityType:String) = {
+    val eType = if (entityType == null) "Thing" else entityType
+
+     id match {
+      case UrnPattern(entType,entId) => if (entType == "Thing") toURN(entId, eType) else id
+      case _ => toURN(id,eType)
+    }
+  }
+
+  def toURN(id:String,entityType:String) = s"urn:ngsi-ld:${entityType}:${id}"
 
   def toNgsi(in:Map[String,Any]) = {
 
   }
 
   def main(args: Array[String]) = {
-    val testData = Map("id"->"myId", "type" -> "myType",
-      "refOther" -> Map("type"->"Relationship","value" -> "anId"),
+    val testData = Map("id"->"urn:ngsi-ld:Car:myId", "type" -> "myType",
+      "refOther" -> Map("type"->"Relationship","value" -> "anId",
+        "metadata" -> Map("entityType" -> Map("value" -> "Parking"))),
       "dateCreated" -> Map("value" -> "2018-04-23T12:00:00", "type" -> "DateTime"),
       "speed" -> Map("value"->100,
                       "metadata" -> Map("accuracy" -> Map("value" -> 0.89),
