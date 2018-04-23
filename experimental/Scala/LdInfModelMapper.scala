@@ -32,16 +32,15 @@ object LdInfModelMapper {
 
       case AnyProp(prop) => {
         val nodeType = ((p:String) => {
-          var out:(String,String,String) = null;
+          var out:(String,String,String) = null
 
           p match {
-            case ReferenceAttr(relName) => out = rel_member(relName)
+            case ReferenceAttr(relName) =>  out = rel_member(p)
             case _ => out = (p,"Property","value")
           }
           val declType = auxIn.getOrElse("type","Property")
-          if (declType == "Relationship" || declType == "Reference") {
+          if (declType == "Relationship" || declType == "Reference")
             out = rel_member(p)
-          }
 
           out
         })(prop)
